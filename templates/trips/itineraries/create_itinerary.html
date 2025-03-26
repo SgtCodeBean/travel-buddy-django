@@ -1,0 +1,152 @@
+
+{% extends "trips/base.html" %}
+{% block page-title %}Create Itinerary{% endblock %}
+{% block body-class %}plan-trip-page{% endblock %}
+{% block content %}
+    <!-- Mobile Menu Toggle Button -->
+      <div class="menu-container">
+        <button class="btn menu-toggle" data-target="#chat-sidebar">
+          ☰ Menu
+        </button>
+      </div>
+
+      <!-- Chat Area -->
+      <section class="chat-area">
+        <!-- Chat Messages -->
+        <div class="chat-messages hidden">
+          <p class="system-message">
+            Welcome! Your itinerary request has been submitted.
+          </p>
+        </div>
+
+        <!-- Trip Preferences Form -->
+        <div class="trip-preferences">
+          <h2>Plan Your Trip</h2>
+          <form id="generate-itinerary-form" action="#" method="POST">
+            <label>Preferred Region(s):</label>
+            <div class="anywhere-checkbox">
+              <label for="anywhere-checkbox-input">
+                <input type="checkbox" id="anywhere-checkbox-input" /> Anywhere
+              </label>
+            </div>
+            <div class="checkbox-group">
+              <label
+                ><input
+                  type="checkbox"
+                  class="region-checkbox"
+                  name="region[]"
+                  value="africa"
+                />
+                Africa</label
+              >
+              <label
+                ><input
+                  type="checkbox"
+                  class="region-checkbox"
+                  name="region[]"
+                  value="antarctica"
+                />
+                Antarctica</label
+              >
+              <label
+                ><input
+                  type="checkbox"
+                  class="region-checkbox"
+                  name="region[]"
+                  value="asia"
+                />
+                Asia</label
+              >
+              <label
+                ><input
+                  type="checkbox"
+                  class="region-checkbox"
+                  name="region[]"
+                  value="australia"
+                />
+                Australia</label
+              >
+              <label
+                ><input
+                  type="checkbox"
+                  class="region-checkbox"
+                  name="region[]"
+                  value="europe"
+                />
+                Europe</label
+              >
+              <label
+                ><input
+                  type="checkbox"
+                  class="region-checkbox"
+                  name="region[]"
+                  value="mid-east"
+                />
+                Middle East</label
+              >
+              <label
+                ><input
+                  type="checkbox"
+                  class="region-checkbox"
+                  name="region[]"
+                  value="north-america"
+                />
+                North America</label
+              >
+              <label
+                ><input
+                  type="checkbox"
+                  class="region-checkbox"
+                  name="region[]"
+                  value="pacific"
+                />
+                Pacific</label
+              >
+              <label
+                ><input
+                  type="checkbox"
+                  class="region-checkbox"
+                  name="region[]"
+                  value="south-america"
+                />
+                South America</label
+              >
+            </div>
+
+            <label for="budget">Budget ($):</label>
+            <input
+              type="number"
+              id="budget"
+              name="budget"
+              placeholder="Enter your budget"
+            />
+
+            <label for="travel-type">Type of Travel:</label>
+            <select id="travel-type" name="travel-type">
+              <option value="solo">Solo</option>
+              <option value="family">Family</option>
+              <option value="friends">Friends</option>
+              <option value="romantic">Romantic</option>
+              <option value="adventure">Adventure</option>
+              <option value="luxury">Luxury</option>
+            </select>
+
+            <label for="custom-preferences">Custom Preferences:</label>
+            <textarea
+              id="custom-preferences"
+              name="custom-preferences"
+              rows="3"
+              placeholder="Tell us what you want from your trip..."
+            ></textarea>
+            <button type="submit" class="btn btn-primary">
+              <b>Generate Itinerary</b>
+            </button>
+          </form>
+        </div>
+        <!-- Chat Input -->
+        <div class="chat-input hidden">
+          <input type="text" placeholder="Type your message..." />
+          <button class="btn btn-send">Send</button>
+        </div>
+      </section>
+{% endblock %}

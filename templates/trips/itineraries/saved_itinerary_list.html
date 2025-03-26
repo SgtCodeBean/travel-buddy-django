@@ -1,0 +1,84 @@
+{% extends "trips/base.html" %}
+{% block page-title %}Saved Itinerary List{% endblock %}
+
+{% block main-class %}saved-itineraries{% endblock %}
+{% block content %}
+    <h2>Saved Itineraries</h2>
+      <div class="search-sort-filter-container">
+        <!-- Search Bar -->
+        <input
+          type="text"
+          id="search-bar"
+          class="search-bar"
+          placeholder="Search itineraries..."
+       >
+
+        <!-- Sort & Filter Buttons -->
+        <div class="sort-filter-buttons">
+          <button id="sort-btn" class="btn sort-btn">Sort ⬍</button>
+          <button id="filter-btn" class="btn filter-btn">Filter ⛛</button>
+        </div>
+      </div>
+      <!-- Itineraries List -->
+      <ul class="itinerary-list">
+        <li class="itinerary-item public">
+          <div class="itinerary-info">
+            <!-- Itinerary Details -->
+            <h3>Trip to Japan</h3>
+            <p><b>🌍 Destination:</b> Tokyo, Kyoto, Osaka</p>
+            <p><b>📅 Dates:</b> March 15 - March 30</p>
+            <p><b>💰 Budget:</b> $2,500</p>
+
+            <!-- Star Rating -->
+            <div class="rating">
+              <span class="stars">⭐⭐⭐⭐☆</span>
+              <span class="review-count">(24 reviews)</span>
+            </div>
+          </div>
+          <div class="itinerary-actions">
+            <a href="{% url 'trips:user_itinerary_details' itinerary_id=1 %}" class="btn view-btn">View</a>
+            <button class="btn favorite-btn">❤️</button>
+            <a href="{% url 'trips:edit_itinerary' itinerary_id=1%}" id="edit-btn" class="btn edit-btn">Edit ✏️</a>
+              <button class="btn delete-btn">🗑️</button>
+          </div>
+        </li>
+
+        <li class="itinerary-item public">
+          <div class="itinerary-info">
+            <!-- Itinerary Details -->
+            <h3>European Adventure</h3>
+            <p><b>🌍 Destination:</b> Paris, Rome, Berlin</p>
+            <p><b>📅 Dates:</b> July 10 - July 25</p>
+            <p><b>💰 Budget:</b> $3,500</p>
+
+            <!-- Star Rating -->
+            <div class="rating">
+              <span class="stars">⭐⭐⭐☆☆</span>
+              <span class="review-count">(24 reviews)</span>
+            </div>
+          </div>
+          <div class="itinerary-actions">
+            <a href="{% url 'trips:user_itinerary_details' itinerary_id=2 %}" class="btn view-btn">View</a>
+            <button class="btn favorite-btn">❤️</button>
+              <a href="{% url 'trips:edit_itinerary' itinerary_id=2%}" id="edit-btn" class="btn edit-btn">Edit ✏️</a>
+            <button class="btn delete-btn">🗑️</button>
+          </div>
+        </li>
+
+        <li class="itinerary-item private">
+          <div class="itinerary-info">
+            <!-- Itinerary Details -->
+            <h3>Backpacking Southeast Asia</h3>
+            <p><b>🌍 Destination:</b> Thailand, Vietnam, Indonesia</p>
+            <p><b>📅 Dates:</b> September 5 - October 10</p>
+            <p><b>💰 Budget:</b> $1,800</p>
+          </div>
+          <div class="itinerary-actions">
+            <a href="{% url 'trips:user_itinerary_details' itinerary_id=1 %}" class="btn view-btn">View</a>
+            <button class="btn favorite-btn">❤️</button>
+              <a href="{% url 'trips:edit_itinerary' itinerary_id=1%}" id="edit-btn" class="btn edit-btn">Edit ✏️</a>
+            <button class="btn delete-btn">🗑️</button>
+          </div>
+        </li>
+      </ul>
+{% endblock %}

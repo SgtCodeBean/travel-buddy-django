@@ -1,0 +1,144 @@
+{% extends "trips/base.html" %}
+{% block page-title %}Your Itinerary - Details{% endblock %}
+
+{% block body-class %}itinerary-page{% endblock %}
+{% block sidebar %}
+    <aside id="itinerary-sidebar" class="sidebar hidden">
+      <div class="sidebar-body">
+        <h2>Trip Details</h2>
+        <ul class="sidebar-tabs">
+          <li><a href="#" class="btn active">📍 Itinerary</a></li>
+          <li><a href="#" class="btn">💰 Pricing</a></li>
+          <li><a href="#" class="btn">⚠️ Travel Advisories</a></li>
+          <li><a href="#" class="btn">💡 Tips</a></li>
+        </ul>
+        <!-- Trip Actions -->
+        <h2>Trip Actions</h2>
+        <ul class="sidebar-tabs">
+          <li><a href="#" class="btn">💾 Save Itinerary</a></li>
+          <li><a href="#" class="btn">⭐ Rate Itinerary</a></li>
+          <li><a href="#" class="btn">💬 Comments</a></li>
+        </ul>
+      </div>
+    </aside>
+{% endblock %}
+
+{% block main-class %}itinerary-content{% endblock %}
+{% block content %}
+    <div class="top-bar">
+        <!-- Back Button -->
+        <div class="back-btn-container">
+          <a href="{% url 'trips:explore_itineraries_list' %}" class="btn back-btn">← Back</a>
+        </div>
+        <!-- Menu Toggle -->
+        <div class="menu-container">
+          <button class="btn menu-toggle" data-target="#itinerary-sidebar">
+            ☰ Menu
+          </button>
+        </div>
+      </div>
+      <!-- Itinerary Details -->
+      <h2>Backpacking Through Europe ✈️</h2>
+      <h3><span class="stars">⭐⭐⭐☆☆</span></h3>
+      <div class="itinerary-box">
+        <!-- Day 1 -->
+        <h3>📅 Day 1: <a href="#">Barcelona, Spain 🇪🇸</a></h3>
+        <ul>
+          <li>
+            <strong>Morning:</strong> Arrive in Barcelona and check into a
+            hostel like <a href="#">Hostel One Ramblas</a>.
+          </li>
+          <li>
+            <strong>Midday:</strong> Visit
+            <a href="#">La Sagrada Familia</a> and
+            <a href="#">Gothic Quarter</a>.
+          </li>
+          <li>
+            <strong>Lunch:</strong> Try <a href="#">Paella</a> at
+            <a href="#">La Boqueria Market</a>.
+          </li>
+          <li>
+            <strong>Afternoon:</strong> Relax at
+            <a href="#">Barceloneta Beach</a>.
+          </li>
+          <li>
+            <strong>Evening:</strong> Walk <a href="#">La Rambla</a> and enjoy
+            <a href="#">Sangria</a> at a rooftop bar.
+          </li>
+        </ul>
+      </div>
+
+      <div class="itinerary-box">
+        <!-- Day 2 -->
+        <h3>📅 Day 2: <a href="#">Nice, France 🇫🇷</a></h3>
+        <ul>
+          <li>
+            <strong>Morning:</strong> Flight/train to Nice, check-in at
+            <a href="#">Villa Saint Exupéry</a>.
+          </li>
+          <li>
+            <strong>Midday:</strong> Walk the
+            <a href="#">Promenade des Anglais</a>, swim at the beach.
+          </li>
+          <li>
+            <strong>Lunch:</strong> Enjoy a <a href="#">Salade Niçoise</a>.
+          </li>
+          <li>
+            <strong>Afternoon:</strong> Visit <a href="#">Castle Hill</a> for
+            stunning views.
+          </li>
+        </ul>
+      </div>
+
+      <div class="itinerary-box">
+        <!-- Day 3 -->
+        <h3>📅 Day 3: <a href="#">Cinque Terre, Italy 🇮🇹</a></h3>
+        <ul>
+          <li>
+            <strong>Morning:</strong> Train to La Spezia, stay in
+            <a href="#">Riomaggiore</a>.
+          </li>
+          <li>
+            <strong>Midday:</strong> Eat fresh <a href="#">seafood pasta</a> by
+            the sea.
+          </li>
+          <li>
+            <strong>Afternoon:</strong> Hike between
+            <a href="#">Cinque Terre</a> villages.
+          </li>
+        </ul>
+      </div>
+
+      <div class="itinerary-box">
+        <!-- Day 4 -->
+        <h3>📅 Day 4: <a href="#">Rome, Italy 🇮🇹</a></h3>
+        <ul>
+          <li>
+            <strong>Morning:</strong> Train to Rome, check-in at
+            <a href="#">The Yellow Hostel</a>.
+          </li>
+          <li>
+            <strong>Midday:</strong> Explore the <a href="#">Colosseum</a> and
+            <a href="#">Roman Forum</a>.
+          </li>
+          <li>
+            <strong>Evening:</strong> Visit <a href="#">Trevi Fountain</a> and
+            enjoy <a href="#">Gelato</a>.
+          </li>
+        </ul>
+      </div>
+
+    <div class="comments-section">
+      {% if request.session.username %}
+        <h3>Add a Comment</h3>
+      <form action="{% url 'trips:add_comment' itinerary_id=3 %}" method="POST">
+        {% csrf_token %}
+        <textarea name="comment" class="comment-box" placeholder="Write your comment here..." required></textarea>
+        <button type="submit" class="btn btn-send">Submit Comment</button>
+      </form>
+    {% else %}
+    <h3>Comments</h3>
+    <p>Please <a href="{% url 'trips:login' %}">Sign In</a> or <a href="{% url 'trips:create_account' %}">Sign Up</a> to add a comment.</p>
+    {% endif %}
+    </div>
+{% endblock %}

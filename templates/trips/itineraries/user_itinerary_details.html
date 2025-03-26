@@ -1,0 +1,57 @@
+{% extends "trips/base.html" %}
+{% block page-title %}Itinerary Details{% endblock %}
+
+{% block body-class %}itinerary-page{% endblock %}
+{% block sidebar %}
+    <aside id="itinerary-sidebar" class="sidebar hidden">
+      <div class="sidebar-body">
+        <h2>Trip Details</h2>
+        <ul class="sidebar-tabs">
+          <li><a href="#" class="btn active">📍 Itinerary</a></li>
+          <li><a href="#" class="btn">💰 Pricing</a></li>
+          <li><a href="#" class="btn">⚠️ Travel Advisories</a></li>
+          <li><a href="#" class="btn">💡 Tips</a></li>
+        </ul>
+        <!-- Trip Actions -->
+        <h2>Trip Actions</h2>
+        <ul class="sidebar-tabs">
+          <li><a href="#" class="btn">💾 Save Itinerary</a></li>
+          <li><a href="#" class="btn">⭐ Rate Itinerary</a></li>
+          <li><a href="#" class="btn">💬 Comments</a></li>
+        </ul>
+      </div>
+    </aside>
+{% endblock %}
+
+{% block main-class %}itinerary-content{% endblock %}
+{% block content %}
+  <!-- Back Button -->
+  <div class="top-bar">
+        <!-- Back Button -->
+        <div class="back-btn-container">
+          <a href="{% url 'trips:explore_itineraries_list' %}" class="btn back-btn">← Back</a>
+        </div>
+        <!-- Menu Toggle -->
+        <div class="menu-container">
+          <button class="btn menu-toggle" data-target="#itinerary-sidebar">
+            ☰ Menu
+          </button>
+        </div>
+      </div>
+
+  <!-- Basic Itinerary Info -->
+  <h2>{{ itinerary.name }}</h2>
+  <p><strong>User:</strong> {{ itinerary.user }}</p>
+  <p><strong>Destination:</strong> {{ itinerary.destination }}</p>
+  <p><strong>Duration:</strong> {{ itinerary.duration }} Days</p>
+  <p><strong>Budget:</strong> ${{ itinerary.budget }}</p>
+  <div class="rating">
+    <span class="stars">{{ itinerary.star_rating }}</span>
+    <span class="review-count">({{ itinerary.review_count }} reviews)</span>
+  </div>
+
+  <!-- Detailed Itinerary Plan -->
+  <div class="itinerary-details">
+    {{ itinerary.details|safe }}
+  </div>
+{% endblock %}

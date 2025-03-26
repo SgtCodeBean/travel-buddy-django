@@ -1,0 +1,13 @@
+{% extends "trips/base.html" %}
+{% block page-title %}Edit Itinerary{% endblock %}
+{% block main-class %}edit-itinerary{% endblock %}
+{% block content %}
+  <h2>Edit Itinerary</h2>
+  <form action="{% url 'trips:edit_itinerary' itinerary_id=2 %}" method="POST">
+    {% csrf_token %}
+    <label for="name">Trip Title</label>
+    <input type="text" id="name" name="name" value="{{ itinerary.name }}" required>
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+  </form>
+  <a href="{% url 'trips:saved_itineraries_list' %}" class="btn">Cancel</a>
+{% endblock %}

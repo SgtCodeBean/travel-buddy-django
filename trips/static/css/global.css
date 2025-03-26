@@ -1,0 +1,1081 @@
+/* =====================================================
+   🎨 General Reset & Global Styles
+   ===================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+/* =====================================================
+   🎨 Global Variables
+   ===================================================== */
+:root {
+    --primary-color: #0077b6;
+    --secondary-color: #f8f9fa;
+    --text-color: #333;
+    --border-radius: 0.3125em;
+    --box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    --spacing-small: 0.5em;
+    --spacing-medium: 1.25em;
+    --spacing-large: 2.5em;
+}
+
+/* =====================================================
+   🎨 Utility Classes
+   ===================================================== */
+.text-center {
+    text-align: center;
+}
+
+.margin-auto {
+    margin: auto;
+}
+
+.padding-medium {
+    padding: var(--spacing-medium);
+}
+
+.border-radius {
+    border-radius: var(--border-radius);
+}
+
+.box-shadow {
+    box-shadow: var(--box-shadow);
+}
+
+/* =====================================================
+   🔹 Header Section
+   ===================================================== */
+/* Header Styles */
+header {
+    background: var(--primary-color);
+    color: white;
+    padding: 0.9375em 1.875em;
+    display: flex;
+    position: sticky;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: auto;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+/* Flex container for header */
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+/* Logo & App Name */
+.logo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.logo-container img {
+    width: 4em;
+    height: auto;
+}
+
+.app-name {
+    font-size: 1.8em;
+    font-weight: bold;
+    flex-grow: 1;
+}
+
+/* Navigation Menu */
+.nav-menu {
+    display: flex;
+    gap: 1.25em;
+    flex-grow: 1;
+}
+
+/* Navigation Links */
+.nav-menu a {
+    text-decoration: none;
+    color: white;
+    font-size: 1.1em;
+    padding: .625em .9375em;
+    transition: 0.3s ease-in-out;
+}
+
+.nav-menu a:hover {
+    text-decoration: underline;
+}
+
+/* Search Form */
+.search-form {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+}
+
+.search-form input {
+    padding: 0.5em;
+    border: 1px solid #ccc;
+    border-radius: var(--border-radius);
+    margin-right: 0.5em;
+    height: 2.5em;
+    /* Ensure the input height matches the button height */
+}
+
+.search-form button {
+    padding: 0.5em 1em;
+    height: 2.5em;
+    /* Ensure the button height matches the input height */
+    margin-top: 0em;
+}
+
+/* =====================================================
+   🔹 Profile Menu (Top Right)
+   ===================================================== */
+/* Profile Menu Container */
+.profile-menu {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.profile-icon {
+    width: 2.5em;
+    height: 2.5em;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.dropdown-content {
+    margin-top: 8em;
+    display: none;
+    position: absolute;
+    right: 0;
+    background-color: white;
+    min-width: 9.375em;
+    box-shadow: 0em .25em .5em rgba(0, 0, 0, 0.2);
+    border-radius: .3125em;
+    overflow: hidden;
+    z-index: 100;
+}
+
+.dropdown-content a {
+    color: var(--primary-color);
+    padding: 0.75em;
+    text-decoration: none;
+    display: block;
+    transition: 0.3s;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+.profile-menu:hover .dropdown-content {
+    display: block;
+}
+
+/* =====================================================
+   🎯 Footer Section
+   ===================================================== */
+/* Footer Styles */
+footer {
+    background: var(--primary-color);
+    color: white;
+    text-align: center;
+    padding: 1em 0;
+    border-top: 0.125em solid #ddd;
+}
+
+/* Footer Container */
+.footer-container {
+    max-width: 68.75em;
+    margin: 0 auto;
+}
+
+/* Footer Links */
+.footer-links,
+.footer-legal {
+    display: flex;
+    justify-content: center;
+    gap: 1.25em;
+    flex-wrap: wrap;
+    margin-bottom: 1.6em;
+}
+
+.footer-links a,
+.footer-legal a {
+    color: white;
+    text-decoration: none;
+    font-size: 1em;
+    transition: 0.3s;
+}
+
+.footer-links a:hover,
+.footer-legal a:hover {
+    text-decoration: underline;
+}
+
+/* Copyright */
+.copyright {
+    font-size: 0.9em;
+    margin-top: 1.6em;
+    opacity: 0.8;
+}
+
+/* =====================================================
+   🔹 Body & Main Content
+   ===================================================== */
+/* Body Styles */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Main Content Styles */
+main {
+    flex-grow: 1;
+    text-align: center;
+    padding: 0.5em 1.25em;
+}
+
+/* Heading Styles */
+h2 {
+    font-size: 2em;
+    margin-bottom: 1.25em;
+}
+
+.header-right {
+    display: flex;
+    flex-direction: column;
+    /* Stack items vertically */
+    align-items: flex-end;
+    /* Align them to the right */
+    gap: 0.5em;
+    /* Space between form and profile menu (optional) */
+}
+
+/* =====================================================
+   🎯 Responsive Design for Mobile
+   ===================================================== */
+@media (max-width: 768px) {
+
+    /* Center the entire header content */
+    header {
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+        position: static;
+    }
+
+    /* Stack nav items vertically */
+    .nav-menu {
+        flex-direction: column;
+        gap: 0.2em;
+        margin-top: 0.2em;
+        width: 100%;
+        align-items: center;
+    }
+
+    /* Ensure navigation links take up full width */
+    .nav-menu a {
+        display: block;
+        text-align: center;
+        width: 100%;
+        padding: 0.5em 0;
+    }
+}
+
+/* =====================================================
+   📌 Base Button Styles
+   ===================================================== */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5em 1em;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s, color 0.3s;
+    font-size: 1em;
+    border: none;
+}
+
+/* =====================================================
+   📌 Primary Buttons
+   ===================================================== */
+.btn-primary {
+    background: var(--primary-color);
+    color: white;
+    padding: 0.8em 0.9375em;
+    margin-top: var(--spacing-large);
+    font-size: 1.1em;
+}
+
+.btn-primary:hover {
+    background: #005f8a;
+}
+
+/* =====================================================
+   📌 New Trip Button
+   ===================================================== */
+.new-trip-btn {
+    background: white;
+    color: var(--primary-color);
+    padding: 10px;
+    margin-bottom: 20px;
+    width: 110px;
+    /* Fixed width */
+    height: 40px;
+    /* Fixed height */
+}
+
+.new-trip-btn:hover {
+    background: #f0f0f0;
+}
+
+/* =====================================================
+   📌 Chat History Button
+   ===================================================== */
+.chat-hist-btn {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border-radius: 5px;
+    padding: 10px;
+    width: 150px;
+    /* Fixed width */
+    height: 40px;
+    /* Fixed height */
+    margin: 5px 0;
+    display: inline-flex;
+    /* Ensure inline-flex for consistent sizing */
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+/* Remove bullet points from list items containing buttons */
+.chat-history li {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Flex container for chat items */
+.chat-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* =====================================================
+   📌 Save & Delete Buttons
+   ===================================================== */
+.save-btn,
+.delete-btn {
+    background: none;
+    color: white;
+    font-size: 1.2em;
+    display: inline-flex;
+    /* Ensure inline-flex for consistent sizing */
+    align-items: center;
+    justify-content: center;
+    padding: 0.5em;
+}
+
+.save-btn:hover {
+    color: #00ff00;
+    /* Green for Save */
+}
+
+.delete-btn:hover {
+    color: #ff4444;
+    /* Red for Delete */
+}
+
+.save-icon,
+.delete-icon {
+    font-size: 1.2em;
+    margin-left: 4px;
+}
+
+/* =====================================================
+   📌 Itinerary Sidebar Customization
+   ===================================================== */
+.sidebar-tabs {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    /* Ensure buttons are stacked vertically */
+}
+
+.sidebar-tabs li {
+    margin-bottom: 10px;
+}
+
+.sidebar-tabs a {
+    display: block;
+    padding: 10px;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    text-decoration: none;
+    text-align: left;
+    /* Align text to the left */
+}
+
+.sidebar-tabs a:hover,
+.sidebar-tabs a.active {
+    background: white;
+    color: var(--primary-color);
+}
+
+/* =====================================================
+   📌 Send Button
+   ===================================================== */
+.btn-send {
+    background: var(--primary-color);
+    color: white;
+    padding: 1.6em 0.9375em;
+    margin-left: 1.6em;
+}
+
+/* =====================================================
+   📌 View Button
+   ===================================================== */
+.view-btn {
+    background-color: var(--primary-color);
+    color: white;
+    text-decoration: none;
+    margin-left: 1em;
+}
+
+.view-btn:hover {
+    background: #005f8a;
+}
+
+/* =====================================================
+   📌 Favorite Button
+   ===================================================== */
+.favorite-btn {
+    background: white;
+    border: 0.125em solid var(--primary-color);
+    color: var(--primary-color);
+    padding: 0.5em 0.75em;
+}
+
+.favorite-btn:hover {
+    background: gold;
+    border-color: gold;
+    color: black;
+}
+
+/* =====================================================
+   📌 Back Button
+   ===================================================== */
+.back-btn {
+    background: var(--primary-color);
+    color: white;
+    text-decoration: none;
+    padding: 0.75em 1em;
+    font-size: 1.2em;
+}
+
+.back-btn:hover {
+    background: #005f8a;
+}
+
+/* =====================================================
+   📌 Sort & Filter Buttons
+   ===================================================== */
+.sort-btn,
+.filter-btn,
+.edit-btn {
+    background: var(--primary-color);
+    color: white;
+    padding: 0.625em 1.25em;
+}
+
+.sort-btn:hover,
+.filter-btn:hover,
+.edit-btn:hover {
+    background: #005f8a;
+}
+
+.sort-filter-buttons {
+    display: flex;
+    gap: 0.5em;
+}
+
+/* =====================================================
+   📌 Flex Container for Buttons
+   ===================================================== */
+.trip-actions {
+    display: flex;
+    gap: 0.1em;
+    /* Space between buttons */
+}
+
+/* =====================================================
+   📌 Menu Button (Mobile Only)
+   ===================================================== */
+.menu-toggle {
+    background: var(--primary-color);
+    color: white;
+    padding: 0.75em 1em;
+    font-size: 1.2em;
+    display: none;
+    /* Hidden on desktop */
+}
+
+@media screen and (max-width: 768px) {
+    .menu-toggle {
+        display: block;
+    }
+}
+
+/* =====================================================
+   🔹 Sidebar Styles
+   ===================================================== */
+   .sidebar {
+    width: 15.625em;
+    background: #0077b6;
+    color: white;
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    padding: 1.25em;
+    transition: left 0.3s ease;
+    z-index: 50;
+    margin-top: 6em;
+}
+
+/* Main content adjustment for sidebar */
+.plan-trip-page main {
+    margin-left: 15.625em;
+    /* Prevent overlap with sidebar */
+}
+
+@media screen and (min-width: 769px) {
+    .sidebar.hidden {
+        display: block;
+    }
+}
+
+/* =====================================================
+   🎯 Responsive Design for Mobile
+   ===================================================== */
+/* Hide Sidebar on Mobile */
+@media screen and (max-width: 768px) {
+    .sidebar {
+        top: 0;
+        margin-top: 0em;
+        /* Remove margin on mobile */
+        overflow-y: auto;
+        /* Allow scrolling within the sidebar */
+    }
+
+    .sidebar-body {
+        margin-top: 11em;
+    }
+
+    .sidebar.hidden {
+        display: none;
+        /* Hide the element */
+    }
+
+    .plan-trip-page main {
+        margin-left: 0;
+        /* Remove margin on mobile */
+    }
+
+    .no-scroll {
+        overflow: hidden;
+        /* Prevent scrolling on the body */
+    }
+}
+
+/* =====================================================
+   🔹 Itinerary Styles
+   ===================================================== */
+/* Main container for saved itineraries */
+main.saved-itineraries {
+    max-width: 50em; /* Maximum width for the container */
+    margin: var(--spacing-large) auto; /* Center the container */
+    padding: var(--spacing-medium); /* Padding inside the container */
+    text-align: center; /* Center-align text */
+}
+
+/* Individual itinerary box */
+.itinerary-box {
+    background: var(--secondary-color); /* Background color */
+    padding: 20px; /* Padding inside the box */
+    margin-bottom: 15px; /* Space between boxes */
+    border-radius: var(--border-radius); /* Rounded corners */
+    box-shadow: var(--box-shadow); /* Box shadow for depth */
+}
+
+/* Itinerary box heading */
+.itinerary-box h3 {
+    font-size: 1.4em; /* Font size */
+    color: var(--primary-color); /* Text color */
+    margin-bottom: 10px; /* Space below heading */
+}
+
+/* List inside itinerary box */
+.itinerary-box ul {
+    list-style: none; /* Remove default list style */
+}
+
+/* List items inside itinerary box */
+.itinerary-box li {
+    font-size: 1.1em; /* Font size */
+    margin-bottom: 8px; /* Space between items */
+}
+
+/* Links inside itinerary box */
+.itinerary-box a {
+    color: var(--primary-color); /* Link color */
+    text-decoration: underline; /* Underline links */
+}
+
+/* =====================================================
+   🎯 Responsive Design for Mobile
+   ===================================================== */
+@media screen and (max-width: 768px) {
+    .itinerary-page main {
+        margin-left: 0; /* Remove left margin */
+        padding-top: 0; /* Remove top padding */
+    }
+}
+
+/* Top bar css */
+.top-bar {
+    display: flex; /* Flexbox layout */
+    justify-content: space-between; /* Space between items */
+    align-items: center; /* Center items vertically */
+    padding: var(--spacing-medium); /* Padding inside top bar */
+    width: 100%; /* Full width */
+}
+
+/* Itinerary content css */
+.itinerary-content {
+    margin-left: 270px; /* Left margin to avoid sidebar */
+    padding: 30px; /* Padding inside content */
+}
+
+/* Itinerary content heading */
+.itinerary-content h2 {
+    font-size: 2em; /* Font size */
+    margin-bottom: 0; /* No space below heading */
+}
+
+main.saved-itineraries {
+    max-width: 50em;
+    margin: 2.5em auto;
+    padding: 1.25em;
+    text-align: center;
+}
+
+.itinerary-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f8f9fa;
+    padding: 0.9375em;
+    margin-bottom: 0.9375em;
+    border-radius: 0.5em;
+    box-shadow: 0 0.125em 0.3125em rgba(0, 0, 0, 0.1);
+}
+
+/* Itinerary Info */
+.itinerary-info h3 {
+    font-size: 1.5em;
+    margin-bottom: 0.3125em;
+}
+
+.itinerary-info p {
+    font-size: 1em;
+    color: #333;
+}
+
+/* Public Itineraries with Ratings */
+.itinerary-item.public {
+    border-left: 0.3125em solid gold;
+    padding-left: 0.9375em;
+}
+
+/* Rating Display */
+.rating {
+    display: flex;
+    align-items: center;
+    margin-top: 0.3125em;
+}
+
+.stars {
+    font-size: 1.2em;
+    color: #ffcc00;
+}
+
+.review-count {
+    font-size: 0.9em;
+    margin-left: 0.3125em;
+    color: #666;
+}
+
+/* ===========================
+   🔹 Chat Area Styles
+   =========================== */
+.chat-area {
+    max-width: 50em;
+    margin: auto;
+    padding: var(--spacing-medium);
+    width: 100%;
+}
+
+.chat-messages {
+    background: var(--secondary-color);
+    padding: 0.9375em;
+    border-radius: var(--border-radius);
+    width: 75%;
+    /* Positioning to the right */
+    margin-left: auto;
+    /* Automatically push it away from the left */
+    margin-right: 0;
+    /* Align flush to the right edge of the container */
+    text-align: left;
+    /* Align the text itself to the right */
+}
+
+.user-message {
+    white-space: pre-wrap;
+}
+
+/* Chat Input */
+.chat-input {
+    display: flex;
+    margin-top: calc(100vh - 39.2em);
+}
+
+.chat-input input {
+    flex-grow: 1;
+    padding: var(--spacing-large);
+    border: 0.0625em solid #ccc;
+    border-radius: var(--border-radius);
+}
+
+.chat-messages.hidden,
+.chat-input.hidden {
+    display: none;
+}
+
+/* ===========================
+   🔹 Trip Preferences Section
+   =========================== */
+.trip-preferences {
+    background: #ffffff;
+    padding: var(--spacing-medium);
+    border-radius: var(--border-radius);
+    margin-bottom: var(--spacing-medium);
+}
+
+.trip-preferences h2 {
+    margin-bottom: var(--spacing-large);
+}
+
+.trip-preferences label {
+    display: block;
+    margin-top: var(--spacing-large);
+}
+
+.trip-preferences input,
+.trip-preferences select,
+.trip-preferences textarea {
+    width: 100%;
+    padding: 0.5em;
+    margin-top: 0.3125em;
+    border: 0.0625em solid #ccc;
+    border-radius: var(--border-radius);
+}
+
+/* Checkbox Group */
+.anywhere-checkbox label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    width: auto;
+}
+
+.checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.2em;
+    justify-content: space-between;
+    max-width: 30em;
+    margin: 0 auto;
+}
+
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    width: 5em;
+    white-space: wrap;
+    text-align: left;
+    justify-content: flex-start;
+}
+
+/* Search, Sort, and Filter Container */
+.search-sort-filter-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1em;
+}
+
+/* Search Bar */
+.search-bar {
+    flex: 1;
+    margin-right: 1em;
+    padding: 0.75em;
+    height: 2.5em;
+}
+
+.hidden {
+    display: none;
+}
+
+/* =====================================================
+   🏖️ Home Section
+   ===================================================== */
+/* =====================================================
+   🚀 Features Section
+   ===================================================== */
+.features {
+    background: #f8f9fa;
+    padding: 3.125em 0;
+}
+
+.features h2 {
+    font-size: 2em;
+    margin-bottom: 1.25em;
+}
+
+.feature-cards {
+    display: flex;
+    justify-content: center;
+    gap: 1.25em;
+    flex-wrap: wrap;
+}
+
+.feature {
+    width: 18.75em;
+    padding: 1.25em;
+    background: white;
+    border-radius: 0.5em;
+    box-shadow: 0 0 1.6em rgba(0, 0, 0, 0.1);
+}
+
+/* =====================================================
+   ⭐ Testimonials Section
+   ===================================================== */
+.testimonials {
+    background: #ffffff;
+    padding: 3.125em 0;
+}
+
+.testimonial-cards {
+    display: flex;
+    justify-content: center;
+    gap: 1.25em;
+    flex-wrap: wrap;
+}
+
+.testimonial {
+    width: 18.75em;
+    padding: 1.25em;
+    background: #0077b6;
+    color: white;
+    border-radius: 0.5em;
+    font-style: italic;
+}
+
+/* =====================================================
+   🌍 Featured Destinations
+   ===================================================== */
+.featured-destinations {
+    background: #f8f9fa;
+    padding: 3.125em 0;
+}
+
+.destinations {
+    display: flex;
+    justify-content: center;
+    gap: 1.25em;
+    flex-wrap: wrap;
+}
+
+.destination {
+    width: 12.5em;
+    padding: 0.9375em;
+    background: white;
+    border: 0.125em solid #0077b6;
+    border-radius: 0.5em;
+    text-align: center;
+}
+
+/* =====================================================
+   📣 Call-to-Action Section
+   ===================================================== */
+/* CTA Section */
+.cta {
+    background-color: var(--primary-color);
+    color: white;
+    text-align: center;
+    padding: 2em 1em;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+}
+
+.cta h2 {
+    font-family: 'Georgia', serif;
+    font-size: 2em;
+    margin-bottom: 0.5em;
+}
+
+.cta p {
+    font-family: 'Arial', sans-serif;
+    font-size: 1.2em;
+    margin-bottom: 1em;
+}
+
+.cta .btn-primary {
+    background: white;
+    color: var(--primary-color);
+    padding: 0.75em 1.5em;
+    font-size: 1.1em;
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.cta .btn-primary:hover {
+    background: var(--secondary-color);
+    color: var(--primary-color);
+}
+
+/* =====================================================
+   🎯 Responsive Design for Mobile
+   ===================================================== */
+@media (max-width: 768px) {
+
+    /* Ensure feature section also stacks nicely */
+    .feature-cards,
+    .testimonial-cards,
+    .destinations {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+/* Background Image (Generated from DALL.e)*/
+body.login {
+    background: url('../img/travel-background.png') no-repeat center center fixed;
+    background-size: cover;
+    color: #fff;
+}
+
+/* Login Container */
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+    padding: 2em;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+}
+
+/* Login Box */
+.login-box {
+    background: #fff;
+    color: #333;
+    padding: 2em;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+}
+
+.login-box h2 {
+    margin-bottom: 1em;
+}
+
+.login-box label {
+    display: block;
+    margin-bottom: 0.5em;
+    text-align: left;
+}
+
+.login-box input {
+    width: 100%;
+    padding: 0.75em;
+    margin-bottom: 1em;
+    border: 1px solid #ccc;
+    border-radius: var(--border-radius);
+}
+
+/* Register Link */
+.register-link {
+    margin-top: 1em;
+}
+
+.register-link a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+}
+
+/* Call-to-Action Section */
+.cta-section {
+    margin-top: 2em;
+    text-align: center;
+}
+
+.cta-section h3 {
+    margin-bottom: 0.5em;
+}
+
+.cta-section p {
+    margin-bottom: 0.5em; /* Reduced margin-bottom */
+}
+
+.cta-section .btn {
+    padding: 0.75em 1.5em;
+    font-size: 1.1em;
+    margin-top: 0.5em; /* Reduced margin-top */
+}
+
+.comment-box {
+    width: 100em;
+    height: 100px; /* Adjust the height as needed */
+    padding: 10px; /* Optional: Add padding for better appearance */
+    border: 1px solid #ccc; /* Optional: Add border */
+    border-radius: 5px; /* Optional: Add border radius */
+    box-sizing: border-box; /* Ensure padding and border are included in the element's total width and height */
+}

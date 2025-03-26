@@ -1,0 +1,104 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home - My Travel Buddy | {% block page-title %}{% endblock %}</title>
+    <!-- Global Styles -->
+    <link rel="stylesheet" href="{% static "css/global.css" %}" />
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  </head>
+
+  <script>
+  console.log("User:", "{{ request.user }}", "Is Admin:", "{{ request.is_admin }}");
+</script>
+
+  <body class="{% block body-class %}{% endblock %}">
+    <!-- Header (Logo & Navigation) -->
+    <header>
+      <div class="header-container">
+        <!-- Logo & App Name -->
+        <div class="logo-container">
+          <img src="{% static "img/logo.png" %}" alt="AI Travel Assistant Logo" />
+        </div>
+        <!-- Navigation Menu -->
+        <nav class="nav-menu">
+          <a href="{% url 'trips:home' %}">Home</a>
+          <a href="{% url 'trips:create_itinerary' %}">Plan Trip</a>
+          <a href="{% url 'trips:saved_itineraries_list' %}">Saved Itineraries</a>
+          {% if request.session.is_admin %}
+            <a href="{% url 'trips:explore_itineraries_list_admin' %}">Explore</a>
+            {% else %}
+            <a href="{% url 'trips:explore_itineraries_list' %}">Explore</a>
+            {% endif %}
+        </nav>
+        <!-- Search Form -->
+        <div class="header-right">
+          <form action="search-results.html" method="GET" class="search-form">
+            <input
+              type="text"
+              name="query"
+              placeholder="Search trips..."
+              required
+            />
+            <button type="submit" class="btn btn-primary">Search</button>
+          </form>
+          {% if request.session.username %}
+            <p>Welcome, {{ request.session.username }}!</p>
+        {% endif %}
+            <div class="profile-menu">
+            <img
+              src="{% static "img/profile-icon.png" %}"
+              alt="User Profile"
+              class="profile-icon"
+            />
+            <div class="dropdown-content">
+              {% if request.session.username %}
+              <a href="{% url 'trips:profile' %}">Profile</a>
+              <a href="{% url 'trips:logout' %}">Logout</a>
+            {% else %}
+              <a href="{% url 'trips:login' %}">Sign In</a>
+              <a href="{% url 'trips:create_account' %}">Create Account</a>
+            {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Sidebar -->
+    {% block sidebar %}
+    {% endblock %}
+
+    <!-- Main Content -->
+    <main class="{% block main-class %}{% endblock %}">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-container">
+        <!-- Navigation Links -->
+        <div class="footer-links">
+          <a href="{% url 'trips:home' %}">Home</a>
+          <a href="{% url 'trips:create_itinerary' %}">Plan Trip</a>
+          <a href="{% url 'trips:saved_itineraries_list' %}">Saved Itineraries</a>
+          <a href="{% url 'trips:explore_itineraries_list' %}">Explore</a>
+        </div>
+
+        <!-- Privacy & Terms -->
+        <div class="footer-legal">
+          <a href="help.html">Help Center</a>
+          <a href="contact.html">Contact Us</a>
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="terms.html">Terms of Service</a>
+        </div>
+
+        <!-- Copyright Info -->
+        <p class="copyright">© 2024 My Travel Buddy. All Rights Reserved.</p>
+      </div>
+    </footer>
+  <script src="{% static "js/interactions.js" %}"></script>
+  </body>
+</html>

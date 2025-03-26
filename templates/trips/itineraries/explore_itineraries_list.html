@@ -1,0 +1,83 @@
+{% extends "trips/base.html" %}
+{% block page-title %}Saved Itinerary List{% endblock %}
+
+{% block main-class %}saved-itineraries{% endblock %}
+{% block content %}
+    <h2>Explore</h2>
+      <div class="search-sort-filter-container">
+        <!-- Search Bar -->
+        <input
+          type="text"
+          id="search-bar"
+          class="search-bar"
+          placeholder="Search itineraries..."
+        />
+
+        <!-- Sort & Filter Buttons -->
+        <div class="sort-filter-buttons">
+          <button id="sort-btn" class="btn sort-btn">Sort ⬍</button>
+          <button id="filter-btn" class="btn filter-btn">Filter ⛛</button>
+        </div>
+      </div>
+      <!-- Itineraries List -->
+      <ul class="itinerary-list">
+        <li class="itinerary-item public">
+          <div class="itinerary-info">
+            <h3>Trip to Japan</h3>
+            <p><b>User:</b> JohnDoe123</p>
+            <p><b>🌍 Destination:</b> Tokyo, Kyoto, Osaka</p>
+            <p><b>📅 Length:</b> 14 Days</p>
+            <p><b>💰 Budget:</b> $2,500</p>
+
+            <!-- Star Rating -->
+            <div class="rating">
+              <span class="stars">⭐⭐⭐⭐☆</span>
+              <span class="review-count">(24 reviews)</span>
+            </div>
+          </div>
+          <div class="itinerary-actions">
+            <a href="{% url 'trips:user_shared_itinerary_details' itinerary_id=2 %}" class="btn view-btn">View</a>
+            <button class="btn favorite-btn">💾</button>
+          </div>
+        </li>
+
+        <li class="itinerary-item public">
+          <div class="itinerary-info">
+            <h3>European Adventure</h3>
+            <p><b>User:</b> Wander8945</p>
+            <p><b>🌍 Destination:</b> Paris, Rome, Berlin</p>
+            <p><b>📅 Length:</b> 21 Days</p>
+            <p><b>💰 Budget:</b> $3,500</p>
+
+            <!-- Star Rating -->
+            <div class="rating">
+              <span class="stars">⭐⭐⭐☆☆</span>
+              <span class="review-count">(164 reviews)</span>
+            </div>
+          </div>
+          <div class="itinerary-actions">
+            <a href="{% url 'trips:user_shared_itinerary_details' itinerary_id=2 %}" class="btn view-btn">View</a>
+            <button class="btn favorite-btn">💾</button>
+          </div>
+        </li>
+
+        <li class="itinerary-item public">
+          <div class="itinerary-info">
+            <h3>Backpacking Southeast Asia</h3>
+            <p><b>User:</b> JaneDoe483967</p>
+            <p><b>🌍 Destination:</b> Thailand, Vietnam, Indonesia</p>
+            <p><b>📅 Length:</b> 31 Days</p>
+            <p><b>💰 Budget:</b> $1,800</p>
+
+            <div class="rating">
+              <span class="stars">⭐⭐⭐⭐⭐</span>
+              <span class="review-count">(115 reviews)</span>
+            </div>
+          </div>
+          <div class="itinerary-actions">
+            <a href="{% url 'trips:user_shared_itinerary_details' itinerary_id=2 %}" class="btn view-btn">View</a>
+            <button class="btn favorite-btn">💾</button>
+          </div>
+        </li>
+      </ul>
+{% endblock %}
