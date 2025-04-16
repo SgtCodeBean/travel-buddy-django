@@ -48,7 +48,7 @@ def login(request):
 
 # View itinerary details in the "explore" section
 def user_shared_itinerary_details(request, itinerary_id):
-    return render(request, 'trips/itineraries/view_explore_itinerary.html', {'itinerary_id': itinerary_id})
+    return render(request, 'trips/itineraries/view_explore_itinerary_details.html', {'itinerary_id': itinerary_id})
 
 # Public explore page showing all itineraries (not filtered)
 def explore_itineraries_list(request):
