@@ -27,11 +27,7 @@
           <a href="{% url 'trips:home' %}">Home</a>
           <a href="{% url 'trips:create_itinerary' %}">Plan Trip</a>
           <a href="{% url 'trips:saved_itineraries_list' %}">Saved Itineraries</a>
-          {% if request.session.is_admin %}
-            <a href="{% url 'trips:explore_itineraries_list_admin' %}">Explore</a>
-            {% else %}
-            <a href="{% url 'trips:explore_itineraries_list' %}">Explore</a>
-            {% endif %}
+          <a href="{% url 'trips:explore_itineraries_list' %}">Explore</a>
         </nav>
         <!-- Search Form -->
         <div class="header-right">

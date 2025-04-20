@@ -21,63 +21,35 @@
       </div>
       <!-- Itineraries List -->
       <ul class="itinerary-list">
-        <li class="itinerary-item public">
-          <div class="itinerary-info">
-            <h3>Trip to Japan</h3>
-            <p><b>User:</b> JohnDoe123</p>
-            <p><b>🌍 Destination:</b> Tokyo, Kyoto, Osaka</p>
-            <p><b>📅 Length:</b> 14 Days</p>
-            <p><b>💰 Budget:</b> $2,500</p>
+      {% for itinerary in itineraries %}
+          <li class="itinerary-item {% if itinerary.visibility == 'public' %}public{% else %}private{% endif %}">
+            <div class="itinerary-info">
+              <!-- Itinerary Details -->
+              <h3>{{ itinerary.name }}</h3>
+              <p><b>User:</b> {{ itinerary.user }}</p>
+              <p><b>🌍 Destinations:</b> {{ itinerary.destination }}</p>
+              <p><b>📅 Duration:</b> {{ itinerary.get_duration }} days</p>
+              <p><b>💰 Budget:</b> ${{ itinerary.budget|floatformat:2 }}</p>
 
-            <!-- Star Rating -->
-            <div class="rating">
-              <span class="stars">⭐⭐⭐⭐☆</span>
-              <span class="review-count">(24 reviews)</span>
+              <!-- Star Rating -->
+              <div class="rating">
+                <span class="stars">{{ itinerary.star_rating }}</span>
+                <span class="review-count">({{ itinerary.review_count }})</span>
+              </div>
             </div>
-          </div>
-          <div class="itinerary-actions">
-            <a href="{% url 'trips:user_shared_itinerary_details' itinerary_id=2 %}" class="btn view-btn">View</a>
-            <button class="btn favorite-btn">💾</button>
-          </div>
-        </li>
-
-        <li class="itinerary-item public">
-          <div class="itinerary-info">
-            <h3>European Adventure</h3>
-            <p><b>User:</b> Wander8945</p>
-            <p><b>🌍 Destination:</b> Paris, Rome, Berlin</p>
-            <p><b>📅 Length:</b> 21 Days</p>
-            <p><b>💰 Budget:</b> $3,500</p>
-
-            <!-- Star Rating -->
-            <div class="rating">
-              <span class="stars">⭐⭐⭐☆☆</span>
-              <span class="review-count">(164 reviews)</span>
+            <div class="itinerary-actions">
+              <a href="{% url 'trips:user_shared_itinerary_details' itinerary_id=itinerary.id %}" class="btn view-btn">View</a>
+              <button class="btn favorite-btn">💾</button>
+              {% if request.session.is_admin %}
+                <form action="{% url 'trips:delete_itinerary' itinerary_id=2 %}" method="POST" style="display:inline;">
+                  {% csrf_token %}
+                  <button type="submit" class="btn delete-btn" onclick="return confirm('Are you sure you want to delete this itinerary?');">
+                    🗑️
+                  </button>
+                </form>
+              {% endif %}
             </div>
-          </div>
-          <div class="itinerary-actions">
-            <a href="{% url 'trips:user_shared_itinerary_details' itinerary_id=2 %}" class="btn view-btn">View</a>
-            <button class="btn favorite-btn">💾</button>
-          </div>
-        </li>
-
-        <li class="itinerary-item public">
-          <div class="itinerary-info">
-            <h3>Backpacking Southeast Asia</h3>
-            <p><b>User:</b> JaneDoe483967</p>
-            <p><b>🌍 Destination:</b> Thailand, Vietnam, Indonesia</p>
-            <p><b>📅 Length:</b> 31 Days</p>
-            <p><b>💰 Budget:</b> $1,800</p>
-
-            <div class="rating">
-              <span class="stars">⭐⭐⭐⭐⭐</span>
-              <span class="review-count">(115 reviews)</span>
-            </div>
-          </div>
-          <div class="itinerary-actions">
-            <a href="{% url 'trips:user_shared_itinerary_details' itinerary_id=2 %}" class="btn view-btn">View</a>
-            <button class="btn favorite-btn">💾</button>
-          </div>
-        </li>
+          </li>
+      {% endfor %}
       </ul>
 {% endblock %}

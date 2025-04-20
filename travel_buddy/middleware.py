@@ -6,7 +6,7 @@ class SimpleAuthMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response
         self.admin_paths = [
-            reverse('trips:explore_itineraries_list_admin'),
+            reverse('trips:explore_itineraries_list'),
         ]
 
     def __call__(self, request):

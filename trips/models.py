@@ -29,15 +29,17 @@ class Itinerary(models.Model):
     star_rating = models.CharField(max_length=10, blank=True)
 
     # Number of reviews
-    review_count = models.PositiveIntegerField(default=0)
+    review_count = models.PositiveIntegerField(blank=True, default=0)
 
     # Visibility setting: 'public' or 'private'
     visibility = models.CharField(max_length=20, choices=VISIBILITY_CHOICES, default="public")
 
+    start_date = models.DateField(blank=True, null=True, help_text="Optional start date of the itinerary")
+    end_date = models.DateField(blank=True, null=True, help_text="Optional end date of the itinerary")
+
     # String representation for Django admin or debugging
     def __str__(self):
         return self.name
-
 
 # Mock class used for loading hardcoded itinerary data (not tied to database)
 class ItineraryDetails:
@@ -53,6 +55,11 @@ class ItineraryDetails:
         self.visibility = visibility
         self.details = details
 
+        @property
+        def get_duration(self):
+            if self.start_date and self.end_date:
+                return (self.end_date - self.start_date).days
+            return None
 
 # HTML string representing detailed itinerary content for Europe trip
 itinerary_details_html = """
@@ -72,7 +79,7 @@ itinerary_details_html = """
 """
 
 # List of hardcoded itineraries for use in views (instead of a database)
-itineraries = [
+user_itineraries = [
     ItineraryDetails(
         id=1,
         name="Backpacking Through Europe",
@@ -81,7 +88,46 @@ itineraries = [
         duration=4,
         budget=3000.00,
         star_rating="⭐⭐⭐☆☆",
+        review_count=10,
+        visibility="public",
+        details=itinerary_details_html
+    ),
+    ItineraryDetails(
+        id=2,
+        name="Asian Cultural Tour",
+        user="JohnSmith",
+        destination="Japan, South Korea, Vietnam",
+        duration=10,
+        budget=2500.00,
+        star_rating="☆☆☆☆☆",
         review_count=0,
+        visibility="private",
+        details="""
+    <h2>Asian Cultural Tour </h2>
+    <h3><span class="stars">⭐⭐⭐⭐☆</span></h3>
+    <div class="itinerary-box">
+        <!-- Day 1 -->
+        <h3>📅 Day 1: <a href="#">Kyoto, Japan</a></h3>
+        <ul>
+            <li><strong>Morning:</strong> Visit <a href="#">Fushimi Inari Shrine</a>.</li>
+            <li><strong>Lunch:</strong> Sample ramen at <a href="#">Ichiran</a>.</li>
+            <li><strong>Afternoon:</strong> Explore <a href="#">Gion District</a>.</li>
+        </ul>
+    </div>
+    """
+    ),
+]
+
+public_itineraries = [
+    ItineraryDetails(
+        id=1,
+        name="Backpacking Through Europe",
+        user="JaneDoe",
+        destination="Europe",
+        duration=4,
+        budget=3000.00,
+        star_rating="⭐⭐⭐☆☆",
+        review_count=10,
         visibility="public",
         details=itinerary_details_html
     ),
@@ -93,8 +139,8 @@ itineraries = [
         duration=10,
         budget=2500.00,
         star_rating="⭐⭐⭐⭐☆",
-        review_count=10,
-        visibility="private",
+        review_count=205,
+        visibility="public",
         details="""
     <h2>Asian Cultural Tour </h2>
     <h3><span class="stars">⭐⭐⭐⭐☆</span></h3>

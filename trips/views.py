@@ -2,13 +2,13 @@ from django.shortcuts import render, redirect, Http404, get_object_or_404
 from django.contrib import messages
 from django.http import HttpResponseForbidden, JsonResponse
 from django.urls import reverse
-from .models import Itinerary, itineraries
+from .models import Itinerary, user_itineraries, public_itineraries
 
 # Renders the saved itineraries list for logged-in users
 def saved_itineraries_list(request):
     if not request.session.get('username'):
         return redirect('trips:login')
-    return render(request, 'trips/itineraries/saved_itinerary_list.html')
+    return render(request, 'trips/itineraries/saved_itinerary_list.html', {'itineraries': user_itineraries})
 
 # Renders the detail view of a specific itinerary using the hardcoded list
 def user_itinerary_details(request, itinerary_id):
@@ -52,14 +52,7 @@ def user_shared_itinerary_details(request, itinerary_id):
 
 # Public explore page showing all itineraries (not filtered)
 def explore_itineraries_list(request):
-    return render(request, 'trips/itineraries/explore_itineraries_list.html')
-
-# Admin-only explore page showing itineraries from the database
-def explore_itineraries_list_admin(request):
-    if not request.session.get('is_admin'):
-        return HttpResponseForbidden('You do not have permission to access this page.')
-    itineraries = Itinerary.objects.all()
-    return render(request, 'trips/itineraries/explore_itineraries_list_admin.html', {'itineraries': itineraries})
+    return render(request, 'trips/itineraries/explore_itineraries_list.html', {'itineraries': public_itineraries})
 
 # Placeholder page for creating a new itinerary
 def create_itinerary(request):
@@ -82,7 +75,7 @@ def create_account(request):
 def delete_itinerary(request, itinerary_id):
     if request.method == "POST":
         messages.success(request, f"Itinerary {itinerary_id} deleted.")
-    return redirect('trips:explore_itineraries_list_admin')
+    return redirect('trips:explore_itineraries_list')
 
 # Simulated add comment functionality (does not store the comment)
 def add_comment(request, itinerary_id):

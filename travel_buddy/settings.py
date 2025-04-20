@@ -79,7 +79,7 @@ WSGI_APPLICATION = 'travel_buddy.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "cs5774db",
+        "NAME": "travel_buddy_itineraries",
         "USER": "postgres",
         "PASSWORD": "",
         "HOST": "127.0.0.1",

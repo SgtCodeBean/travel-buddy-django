@@ -12,7 +12,7 @@ urlpatterns = [
     path('shared_itinerary/<int:itinerary_id>/', views.user_shared_itinerary_details,
          name='user_shared_itinerary_details'),
     path('explore/', views.explore_itineraries_list, name='explore_itineraries_list'),
-    path('explore_admin/', views.explore_itineraries_list_admin, name='explore_itineraries_list_admin'),
+
     path('create/', views.create_itinerary, name='create_itinerary'),
 
     path('login/', views.login, name='login'),
