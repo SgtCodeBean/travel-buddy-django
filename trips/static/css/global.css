@@ -139,9 +139,16 @@ header {
    ===================================================== */
 /* Profile Menu Container */
 .profile-menu {
-    position: relative;
     display: flex;
     align-items: center;
+    gap: 1em; /* Space between the icon and the text */
+}
+
+.welcome-text {
+    font-size: 1em;
+    color: inherit;
+    /* Remove default margin */
+    margin: 0;
 }
 
 .profile-icon {
@@ -578,7 +585,7 @@ h2 {
 @media screen and (max-width: 768px) {
     .sidebar {
         top: 0;
-        margin-top: 0em;
+        margin-top: 0;
         /* Remove margin on mobile */
         overflow-y: auto;
         /* Allow scrolling within the sidebar */

@@ -2,6 +2,46 @@
 {% extends "trips/base.html" %}
 {% block page-title %}Create Itinerary{% endblock %}
 {% block body-class %}plan-trip-page{% endblock %}
+{% block sidebar %}
+    <aside id="chat-sidebar" class="sidebar hidden">
+      <div class="sidebar-body">
+        <h2>Chat History</h2>
+        <button class="btn new-trip-btn">+ New Trip</button>
+        <ul class="chat-history">
+          <li>
+            <div class="chat-item">
+              <button class="btn chat-hist-btn">
+                <span class="trip-name">Trip to Japan</span>
+              </button>
+              <div class="trip-actions">
+                <button class="btn save-btn">
+                  <span class="save-icon">💾</span>
+                </button>
+                <button class="btn delete-btn">
+                  <span class="delete-icon">🗑️</span>
+                </button>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="chat-item">
+              <button class="btn chat-hist-btn">
+                <span class="trip-name">Europe Backpacking</span>
+              </button>
+              <div class="trip-actions">
+                <button class="btn save-btn">
+                  <span class="save-icon">💾</span>
+                </button>
+                <button class="btn delete-btn">
+                  <span class="delete-icon">🗑️</span>
+                </button>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </aside>
+{% endblock %}
 {% block content %}
     <!-- Mobile Menu Toggle Button -->
       <div class="menu-container">

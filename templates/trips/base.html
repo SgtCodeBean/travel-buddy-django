@@ -44,10 +44,10 @@
             />
             <button type="submit" class="btn btn-primary">Search</button>
           </form>
-          {% if request.session.username %}
-            <p>Welcome, {{ request.session.username }}!</p>
-        {% endif %}
             <div class="profile-menu">
+            {% if request.session.username %}
+                <p class="welcome-text">Welcome, {{ request.session.username }}!</p>
+            {% endif %}
             <img
               src="{% static "img/profile-icon.png" %}"
               alt="User Profile"
