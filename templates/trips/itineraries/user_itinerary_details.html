@@ -43,11 +43,16 @@
   <h2>{{ itinerary.name }}</h2>
   <p><strong>User:</strong> {{ itinerary.user }}</p>
   <p><strong>Destination:</strong> {{ itinerary.destination }}</p>
+  <p><strong>Dates:</strong> {{ itinerary.start_date|date:"F j, Y" }} - {{ itinerary.end_date|date:"F j, Y" }}</p>
   <p><strong>Duration:</strong> {{ itinerary.duration }} Days</p>
   <p><strong>Budget:</strong> ${{ itinerary.budget }}</p>
   <div class="rating">
-    <span class="stars">{{ itinerary.star_rating }}</span>
+    {% if itinerary.visibility == 'public' %}
+      <span class="stars">{{ itinerary.star_rating }}</span>
     <span class="review-count">({{ itinerary.review_count }} reviews)</span>
+  {% else %}
+    <span><em>Private Itinerary</em></span>
+  {% endif %}
   </div>
 
   <!-- Detailed Itinerary Plan -->

@@ -5,9 +5,7 @@ from django.urls import reverse
 class SimpleAuthMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response
-        self.admin_paths = [
-            reverse('trips:explore_itineraries_list'),
-        ]
+        self.admin_paths = []
 
     def __call__(self, request):
         username = request.session.get('username')

@@ -30,6 +30,8 @@
               <p><b>🌍 Destinations:</b> {{ itinerary.destination }}</p>
               <p><b>📅 Duration:</b> {{ itinerary.get_duration }} days</p>
               <p><b>💰 Budget:</b> ${{ itinerary.budget|floatformat:2 }}</p>
+              <p><b>✍️ Created:</b> {{ itinerary.created_at|date:"F j, Y" }}</p>
+              <p><b>🕒 Last Updated:</b> {{ itinerary.updated_at|date:"F j, Y" }}</p>
 
               <!-- Star Rating -->
               <div class="rating">
