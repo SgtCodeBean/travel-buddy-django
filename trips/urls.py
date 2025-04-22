@@ -19,4 +19,6 @@ urlpatterns = [
     path('logout/', views.logout, name='logout'),
     path('profile/', views.profile, name='profile'),
     path('create_account/', views.create_account, name='create_account'),
+    path('save_itinerary/<int:itinerary_id>/', views.save_itinerary, name='save_itinerary'),
+    path('itineraries/<int:itinerary_id>/delete/', views.delete_itinerary, name='delete_itinerary'),
 ]

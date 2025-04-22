@@ -1,4 +1,3 @@
-
 {% extends "trips/base.html" %}
 {% block page-title %}Create Itinerary{% endblock %}
 {% block body-class %}plan-trip-page{% endblock %}
@@ -8,36 +7,37 @@
         <h2>Chat History</h2>
         <button class="btn new-trip-btn">+ New Trip</button>
         <ul class="chat-history">
-          <li>
-            <div class="chat-item">
-              <button class="btn chat-hist-btn">
-                <span class="trip-name">Trip to Japan</span>
-              </button>
-              <div class="trip-actions">
-                <button class="btn save-btn">
-                  <span class="save-icon">💾</span>
+          {% for itinerary in itineraries %}
+            <li>
+              <div class="chat-item">
+                <button class="btn chat-hist-btn">
+                  <span class="trip-name">{{ itinerary.name }}</span>
                 </button>
-                <button class="btn delete-btn">
-                  <span class="delete-icon">🗑️</span>
-                </button>
-              </div>
-            </div>
-          </li>
-          <li>
-            <div class="chat-item">
-              <button class="btn chat-hist-btn">
-                <span class="trip-name">Europe Backpacking</span>
-              </button>
-              <div class="trip-actions">
-                <button class="btn save-btn">
-                  <span class="save-icon">💾</span>
-                </button>
-                <button class="btn delete-btn">
-                  <span class="delete-icon">🗑️</span>
-                </button>
-              </div>
-            </div>
-          </li>
+                <div class="trip-actions">
+                  <form
+                    method="post"
+                    action="{% url 'trips:save_itinerary' itinerary.id %}"
+                    style="display:inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn save-btn">
+                      <span class="save-icon">💾</span>
+                    </button>
+                  </form>
+
+                  <form
+                    method="post"
+                    action="{% url 'trips:delete_itinerary' itinerary.id %}"
+                    style="display:inline"
+                  >
+                    {% csrf_token %}
+                    <button type="submit" class="btn delete-btn" data-delete-url="/trips/itineraries/{{ itinerary.id }}/delete/">
+                      <span class="delete-icon">🗑️</span>
+                    </button>
+                  </form>
+                </div>
+                </div>
+            </li>
+          {% endfor %}
         </ul>
       </div>
     </aside>
@@ -62,8 +62,9 @@
         <!-- Trip Preferences Form -->
         <div class="trip-preferences">
           <h2>Plan Your Trip</h2>
-          <form id="generate-itinerary-form" action="#" method="POST">
-            <label>Preferred Region(s):</label>
+            <p>* = required</p>
+          <form id="generate-itinerary-form" action="{% url 'trips:create_itinerary' %}" method="POST">
+              <h3>Preferred Region(s)*:</h3>
             <div class="anywhere-checkbox">
               <label for="anywhere-checkbox-input">
                 <input type="checkbox" id="anywhere-checkbox-input" /> Anywhere
@@ -153,15 +154,81 @@
               >
             </div>
 
+            <div id="travel-dates-section">
+              <h3>Choose Your Travel Dates*</h3>
+                <fieldset id="travel-dates-fieldset">
+                <!-- Radio Buttons -->
+                <label>
+                  <input type="radio" name="date-preference" value="specific-dates" checked /> Specific Dates
+                </label>
+                <label>
+                  <input type="radio" name="date-preference" value="specific-months" /> Specific Months
+                </label>
+                <label>
+                  <input type="radio" name="date-preference" value="specific-seasons" /> Specific Seasons
+                </label>
+                <label>
+                  <input type="radio" name="date-preference" value="no-preference" /> No Preference
+                </label>
+              </fieldset>
+                <!-- Specific Dates -->
+                <div id="specific-dates-fields" class="hidden">
+                  <label for="start-date">Start Date*:</label>
+                  <input type="date" id="start-date" name="start-date"/>
+                  <label for="end-date">End Date*:</label>
+                  <input type="date" id="end-date" name="end-date"/>
+                </div>
+
+                <!-- Specific Months -->
+                <div id="specific-months-fields" class="hidden">
+                  <label for="months">Select Month(s)*:</label>
+                  <select id="months" name="months[]" multiple>
+                    <option value="january">January</option>
+                    <option value="february">February</option>
+                    <option value="march">March</option>
+                    <option value="april">April</option>
+                    <option value="may">May</option>
+                    <option value="june">June</option>
+                    <option value="july">July</option>
+                    <option value="august">August</option>
+                    <option value="september">September</option>
+                    <option value="october">October</option>
+                    <option value="november">November</option>
+                    <option value="december">December</option>
+                  </select>
+                  <label for="trip-length-months">Length of Trip (Days):</label>
+                  <input type="number" id="trip-length-months" name="trip-length-months" placeholder="Enter number of days of your trip or leave blank for an unspecified number of days."/>
+                </div>
+
+                <!-- Specific Seasons -->
+                <div id="specific-seasons-fields" class="hidden">
+                  <label for="seasons">Select Season*:</label>
+                  <select id="seasons" name="seasons">
+                    <option value="spring">Spring</option>
+                    <option value="summer">Summer</option>
+                    <option value="fall">Fall</option>
+                    <option value="winter">Winter</option>
+                  </select>
+                  <label for="trip-length-seasons">Length of Trip (Days):</label>
+                  <input type="number" id="trip-length-seasons" name="trip-length-seasons" placeholder="Enter number of days of your trip or leave blank for an unspecified number of days."/>
+                </div>
+
+                <!-- No Preference -->
+                <div id="no-preference-fields" class="hidden">
+                  <label for="trip-length-no-preference">Length of Trip (Days):</label>
+                  <input type="number" id="trip-length-no-preference" name="trip-length-no-preference" placeholder="Enter number of days of your trip or leave blank for an unspecified number of days."/>
+                </div>
+            </div>
+
             <label for="budget">Budget ($):</label>
             <input
               type="number"
               id="budget"
               name="budget"
-              placeholder="Enter your budget"
+              placeholder="Enter your budget or leave blank for no budget limit"
             />
 
-            <label for="travel-type">Type of Travel:</label>
+            <label for="travel-type">Type of Travel*:</label>
             <select id="travel-type" name="travel-type">
               <option value="solo">Solo</option>
               <option value="family">Family</option>
@@ -181,6 +248,7 @@
             <button type="submit" class="btn btn-primary">
               <b>Generate Itinerary</b>
             </button>
+              {% csrf_token %}
           </form>
         </div>
         <!-- Chat Input -->

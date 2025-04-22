@@ -358,7 +358,7 @@ h2 {
     padding: 10px;
     width: 150px;
     /* Fixed width */
-    height: 40px;
+    height: 75px;
     /* Fixed height */
     margin: 5px 0;
     display: inline-flex;
@@ -750,21 +750,33 @@ main.saved-itineraries {
 }
 
 .chat-messages {
-    background: var(--secondary-color);
-    padding: 0.9375em;
-    border-radius: var(--border-radius);
-    width: 75%;
-    /* Positioning to the right */
-    margin-left: auto;
-    /* Automatically push it away from the left */
-    margin-right: 0;
-    /* Align flush to the right edge of the container */
-    text-align: left;
-    /* Align the text itself to the right */
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  padding: 1em;
+  background: var(--secondary-color);
 }
 
+
 .user-message {
-    white-space: pre-wrap;
+  align-self: flex-end;
+  background-color: #d1ecf1;
+  padding: 0.75em 1em;
+  border-radius: 12px;
+  max-width: 70%;
+  white-space: pre-wrap;
+  text-align: left;
+}
+
+.bot-message {
+  align-self: flex-start;
+  background-color: #f8d7da;
+  padding: 0.75em 1em;
+  border-radius: 12px;
+  max-width: 100%;
+  white-space: pre-wrap;
+  margin-left: 1.5em; /* Push it away from the left edge/sidebar */
+  text-align: left;
 }
 
 /* Chat Input */
@@ -796,7 +808,11 @@ main.saved-itineraries {
 }
 
 .trip-preferences h2 {
-    margin-bottom: var(--spacing-large);
+    margin-bottom: 0.5em;
+}
+
+.anywhere-checkbox {
+    margin: 0;
 }
 
 .trip-preferences label {
@@ -859,6 +875,37 @@ main.saved-itineraries {
 
 .hidden {
     display: none;
+}
+
+#travel-dates-section {
+    margin-top: 1em;
+}
+
+#travel-dates-fieldset {
+  display: flex;
+  gap: 1em; /* Adds spacing between labels */
+  flex-wrap: wrap; /* Allows wrapping on small screens */
+  align-items: center;
+  border: none; /* Optional: remove the default fieldset border */
+  padding: 0;   /* Optional: reduce spacing if needed */
+  margin: 0;    /* Optional: align with surrounding elements */
+}
+
+#travel-dates-fieldset label {
+  display: flex;
+  align-items: center;
+  gap: 0.5em; /* Space between the radio input and the label text */
+}
+
+@media (max-width: 768px) {
+  #travel-dates-fieldset {
+    display: flex;
+    flex-direction: column; /* Stack radio buttons vertically */
+    gap: 0.5em; /* Add spacing between the radio buttons */
+    align-items: center; /* Center the radio buttons horizontally */
+    justify-content: center; /* Center the radio buttons vertically */
+    margin: 0 auto; /* Center the fieldset within the page */
+  }
 }
 
 /* =====================================================
@@ -1085,4 +1132,34 @@ body.login {
     border: 1px solid #ccc; /* Optional: Add border */
     border-radius: 5px; /* Optional: Add border radius */
     box-sizing: border-box; /* Ensure padding and border are included in the element's total width and height */
+}
+
+ul.messages {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+ul.messages li.success {
+    background-color: lightgreen;
+    padding: 1em;
+    margin-bottom: 0.25em;
+}
+
+ul.messages li.info {
+    background-color: lightblue;
+    padding: 1em;
+    margin-bottom: 0.25em;
+}
+
+li.error {
+    background-color: red;
+    padding: 1em;
+    margin-bottom: 0.2em;
+}
+
+li.warning {
+    background-color: gold;
+    padding: 1em;
+    margin-bottom: 0.2em;
 }

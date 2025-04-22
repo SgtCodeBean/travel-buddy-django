@@ -15,9 +15,15 @@
         <!-- Trip Actions -->
         <h2>Trip Actions</h2>
         <ul class="sidebar-tabs">
-          <li><a href="#" class="btn">💾 Save Itinerary</a></li>
-          <li><a href="#" class="btn">⭐ Rate Itinerary</a></li>
-          <li><a href="#" class="btn">💬 Comments</a></li>
+          <li><a href="{% url 'trips:edit_itinerary' itinerary_id=itinerary.id%}" id="edit-btn" class="btn edit-btn">✏️ Edit Itinerary Details</a></li>
+          <li><a href="#" class="btn">❤️ Favorite</a></li>
+          {% if itinerary.visibility == 'public' %}
+            <li><a href="#" class="btn">💬 Comments</a></li>
+            <li><a href="#" class="btn">🛑 Make Private</a></li>
+          {% else %}
+            <li><a href="#" class="btn">📤 Make Public</a></li>
+          {% endif %}
+          <a href="#" class="btn " data-action="delete" data-delete-url="{% url 'trips:delete_itinerary' itinerary.id %}">🗑️ Delete Itinerary</a>
         </ul>
       </div>
     </aside>

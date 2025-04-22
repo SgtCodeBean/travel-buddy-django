@@ -3,6 +3,9 @@
 
 {% block main-class %}saved-itineraries{% endblock %}
 {% block content %}
+    <form style="display: none;">
+  {% csrf_token %}
+</form>
     <h2>Saved Itineraries</h2>
       <div class="search-sort-filter-container">
         <!-- Search Bar -->
@@ -15,13 +18,22 @@
 
         <!-- Sort & Filter Buttons -->
         <div class="sort-filter-buttons">
-          <button id="sort-btn" class="btn sort-btn">Sort ⬍</button>
+          <button id="sort-btn" class="btn sort-btn">
+          Sort by
+          {% if current_sort == "budget" %}
+            Date
+          {% else %}
+            Budget
+          {% endif %}
+          ⬍
+        </button>
           <button id="filter-btn" class="btn filter-btn">Filter ⛛</button>
         </div>
       </div>
       <!-- Itineraries List -->
       <ul class="itinerary-list">
       {% for itinerary in itineraries %}
+          {% if itinerary.save_model %}
           <li class="itinerary-item {% if itinerary.visibility == 'public' %}public{% else %}private{% endif %}">
           <div class="itinerary-info">
             <!-- Itinerary Details -->
@@ -46,9 +58,10 @@
             <a href="{% url 'trips:user_itinerary_details' itinerary_id=itinerary.id %}" class="btn view-btn">View</a>
             <button class="btn favorite-btn">❤️</button>
             <a href="{% url 'trips:edit_itinerary' itinerary_id=itinerary.id%}" id="edit-btn" class="btn edit-btn">Edit ✏️</a>
-              <button class="btn delete-btn">🗑️</button>
+            <button class="btn delete-btn" data-action="delete" data-delete-url="{% url 'trips:delete_itinerary' itinerary_id=itinerary.id %}">🗑️</button>
           </div>
         </li>
+          {% endif %}
       {% endfor %}
       </ul>
 {% endblock %}

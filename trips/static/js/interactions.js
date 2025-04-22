@@ -1,127 +1,242 @@
 $(document).ready(function () {
-  // Toggle Sidebar Visibility
+  function showFlash(message, level = "info") {
+    const $list = $("ul.messages").empty();
+    // you could sanitize here if you care about XSS
+    $list.append(`<li class="${level}">${message}</li>`);
+    // scroll into view in case it’s off-screen
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+  // ──────────── 1) Sidebar & Chat Toggles ────────────
   $(".menu-toggle").click(function () {
-    const targetSidebar = $($(this).data("target"));
-    targetSidebar.toggleClass("hidden");
-    $("body").toggleClass("no-scroll", !targetSidebar.hasClass("hidden"));
+    const target = $($(this).data("target"));
+    target.toggleClass("hidden");
+    $("body").toggleClass("no-scroll", !target.hasClass("hidden"));
   });
 
-  // Add New Chat Message
   $(".btn-send").click(function () {
-    let message = $(".chat-input input").val();
-    if (message.trim() !== "") {
-      $('<p class="user-message"></p>')
-        .text(message)
-        .appendTo(".chat-messages");
+    let msg = $(".chat-input input").val().trim();
+    if (msg) {
+      $('<p class="user-message"></p>').text(msg).appendTo(".chat-messages");
       $(".chat-input input").val("");
     }
   });
 
-  // Close Sidebar by Clicking Outside
-  $(document).click(function (event) {
-    if (
-      !$(event.target).closest(".sidebar, .menu-toggle, header, footer").length
-    ) {
-      $(".sidebar").each(function () {
-        if (!$(this).hasClass("hidden")) {
-          $(this).addClass("hidden");
-          $("body").removeClass("no-scroll");
-        }
-      });
+  $(document).click(function (e) {
+    if (!$(e.target).closest(".sidebar, .menu-toggle, header, footer").length) {
+      $(".sidebar:not(.hidden)").addClass("hidden");
+      $("body").removeClass("no-scroll");
     }
   });
 
-  // Show chat messages and chat input when "Generate Itinerary" button is clicked
-  $("#generate-itinerary-form").submit(function (event) {
-    event.preventDefault(); // Prevent the form from submitting normally
+  // ──────────── 2) Date‑Preference Show/Hide & Validation ────────────
+  const form = $("#generate-itinerary-form")[0];
+  const $submit = $(form).find('button[type="submit"]');
 
-    // Parse the user's input from the form
-    let regions = [];
-    if ($("#anywhere-checkbox-input").is(":checked")) {
-      regions.push("Anywhere");
-    } else {
-      $('input[name="region[]"]:checked').each(function () {
-        regions.push($(this).val());
-      });
+  function updateRequiredFields() {
+    // clear all
+    $("#start-date, #end-date, #months, #seasons").prop("required", false);
+
+    // set only the relevant ones
+    const mode = $('input[name="date-preference"]:checked').val();
+    if (mode === "specific-dates") {
+      $("#start-date, #end-date").prop("required", true);
+    } else if (mode === "specific-months") {
+      $("#months").prop("required", true);
+    } else if (mode === "specific-seasons") {
+      $("#seasons").prop("required", true);
     }
-    let budget = $("#budget").val();
-    let travelType = $("#travel-type").val();
-    let customPreferences = $("#custom-preferences").val();
-
-    // Create the first message from the user's input
-    let firstMessage = `Regions: ${regions.join(
-      ", "
-    )}\nBudget: $${budget}\nType of Travel: ${travelType}\nCustom Preferences: ${customPreferences}`;
-
-    // Show the chat messages and chat input
-    $(".chat-messages").removeClass("hidden");
-    $(".chat-input").removeClass("hidden");
-
-    // Hide the form
-    $(this).closest(".trip-preferences").addClass("hidden");
-
-    // Display the first message in the chat
-    $('<p class="user-message"></p>')
-      .text(firstMessage)
-      .appendTo(".chat-messages");
-  });
-
-  // Handle "Anywhere" checkbox interactions
-  $("#anywhere-checkbox-input").change(function () {
-    if ($(this).is(":checked")) {
-      $(".region-checkbox").prop("checked", true);
-    } else {
-      $(".region-checkbox").prop("checked", false);
-    }
-  });
-
-  // Handle region checkboxes interactions
-  $(".region-checkbox").change(function () {
-    if (!$(this).is(":checked")) {
-      $("#anywhere-checkbox-input").prop("checked", false);
-    } else if (
-      $(".region-checkbox:checked").length === $(".region-checkbox").length
-    ) {
-      $("#anywhere-checkbox-input").prop("checked", true);
-    }
-  });
-});
-
-// JavaScript to handle search results
-document.addEventListener("DOMContentLoaded", function () {
-  const params = new URLSearchParams(window.location.search);
-  const query = params.get("query");
-  const resultsContainer = document.getElementById("results-container");
-
-  if (query && query.toLowerCase() === "japan") {
-    resultsContainer.innerHTML = `
-    <ul>
-        <li>Trip to Japan: Tokyo, Kyoto, Osaka</li>
-        <li>Cherry Blossom Tour in Japan</li>
-    </ul>
-    `;
-  } else {
-    resultsContainer.innerHTML =
-      "<p>No results found for your search. Please try a different keyphrase.</p>";
   }
+
+  function validateForm() {
+    updateRequiredFields();
+    let ok = true;
+    $(form).find("[required]").each(function () {
+      if ($(this).is(":visible") && !$.trim($(this).val())) {
+        ok = false;
+        return false; // break
+      }
+    });
+    $submit.prop("disabled", !ok);
+  }
+
+  // initial and on-change hooks
+  validateForm();
+  $('input[name="date-preference"]').on("change", function () {
+    showDefaultFields();
+    validateForm();
+  });
+  $(form).on("input change", "input, select", validateForm);
+
+  // ──────────── 3) AJAX Form Submission ────────────
+  $("#generate-itinerary-form").submit(function (e) {
+  e.preventDefault();
+  const $f = $(this);
+  const data = $f.serialize();
+  const $msgs = $("ul.messages").empty();
+
+  $.ajax({
+    url:     $f.attr("action"),
+    type:    "POST",
+    data:    data,
+    headers: { "X-CSRFToken": $f.find("[name=csrfmiddlewaretoken]").val() },
+
+    success(response) {
+      // server‐side validation can return { success: false, errors: [...] }
+      if (!response.success) {
+        response.errors.forEach(err => {
+          $msgs.append(`<li class="error">${err}</li>`);
+        });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      }
+
+      // ——— HAPPY PATH ———
+      $msgs.empty();  // clear any old messages
+
+      // show chat UI
+      $(".chat-messages, .chat-input").removeClass("hidden");
+      $f.closest(".trip-preferences").addClass("hidden");
+
+      // user message
+      const regions = $("#anywhere-checkbox-input").is(":checked")
+        ? ["Anywhere"]
+        : $('input[name="region[]"]:checked').map((_,el)=> el.value).get();
+      const firstMsg = `Regions: ${regions.join(", ")}\nBudget: $${$("#budget").val()}\nType: ${$("#travel-type").val()}\nPrefs: ${$("#custom-preferences").val()}`;
+      $('<p class="user-message">').text(firstMsg).appendTo(".chat-messages");
+
+      // rebuild sidebar
+      const $sb = $(".chat-history").empty();
+      response.itineraries.forEach(i => {
+        $sb.append(`
+          <li>
+            <div class="chat-item">
+              <button class="btn chat-hist-btn">
+                <span class="trip-name">${i.name}</span>
+              </button>
+              <div class="trip-actions">
+                <button class="btn save-btn" data-save-url="/trips/save_itinerary/${i.id}/">💾</button>
+                <button class="btn delete-btn" data-delete-url="/trips/itineraries/${i.id}/delete/">🗑️</button>
+              </div>
+            </div>
+          </li>`);
+      });
+      bindSaveDeleteButtons();
+
+      // bot message
+      $('<p class="bot-message">').text(response.message).appendTo(".chat-messages");
+    },
+
+    error(xhr) {
+      const resp = xhr.responseJSON;
+      if (resp && resp.errors) {
+        resp.errors.forEach(err => {
+          $msgs.append(`<li class="error">${err}</li>`);
+        });
+      } else {
+        $msgs.append(`<li class="error">An unexpected error occurred.</li>`);
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  });
 });
 
-document.querySelectorAll('.delete-btn').forEach(button => {
-    button.addEventListener('click', function() {
-        const itineraryId = this.getAttribute('data-id');
-        fetch(`/delete_itinerary/${itineraryId}/`, {
-            method: 'POST',
-            headers: {
-                'X-CSRFToken': '{{ csrf_token }}',
-            },
+  // ──────────── 4) Save/Delete Button Binding ────────────
+  function bindSaveDeleteButtons() {
+    $(".save-btn").off("click").on("click", function () {
+      fetch(this.dataset.saveUrl, {
+        method: "POST",
+        headers: {
+          "X-CSRFToken": $("[name=csrfmiddlewaretoken]").val(),
+          "X-Requested-With": "XMLHttpRequest"
+        }
+      }).then(r=>r.json()).then(d => {
+        if (d.redirect_url) {
+          window.location.href = d.redirect_url;
+        } else {
+          alert(d.message)
+        }
+      }).catch(err => console.error(err));
+    });
+
+    $(document).off("click", ".delete-btn");
+    $(document).on("click", ".delete-btn", function(e) {
+      e.preventDefault();
+      const url = this.dataset.deleteUrl;
+      if (!confirm("Are you sure you want to delete this itinerary?")) {
+        return;
+      }
+      fetch(url, { method: "POST", headers:{ "X-CSRFToken": $("[name=csrfmiddlewaretoken]").val() }})
+        .then(r=>r.json())
+        .then(d=>{
+          if (d.success) {
+            showFlash(d.message, "warning");
+            $(this).closest(".itinerary-item, .chat-item").remove();
+          } else {
+            showFlash(d.message, "error");
+          }
         })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                this.closest('.itinerary-item').remove();
-            } else {
-                alert('Failed to delete itinerary.');
-            }
-        });
+        .catch(()=>showFlash("Network error","error"));
+    });
+  }
+  bindSaveDeleteButtons();
+
+  // ──────────── 5) Search Results (if any) ────────────
+  const params = new URLSearchParams(window.location.search);
+  const resultsContainer = $("#results-container");
+  if (resultsContainer.length) {
+    const q = params.get("query");
+    resultsContainer.html(
+      q && q.toLowerCase()==="japan"
+        ? `<ul><li>Trip to Japan: Tokyo, Kyoto, Osaka</li><li>Cherry Blossom Tour in Japan</li></ul>`
+        : `<p>No results found for your search. Please try a different keyphrase.</p>`
+    );
+  }
+
+  // ──────────── 6) Anywhere / Region Checkbox Logic ────────────
+  $("#anywhere-checkbox-input").change(function () {
+    $(".region-checkbox").prop("checked", this.checked);
+  });
+  $(".region-checkbox").change(function () {
+    $("#anywhere-checkbox-input").prop("checked",
+      $(".region-checkbox:checked").length === $(".region-checkbox").length
+    );
+  });
+
+  // ──────────── 7) Date‐Fields Show/Hide ────────────
+  function hideAllFields() {
+    $("#specific-dates-fields, #specific-months-fields, #specific-seasons-fields, #no-preference-fields")
+      .addClass("hidden");
+  }
+  function showDefaultFields() {
+    const val = $('input[name="date-preference"]:checked').val();
+    hideAllFields();
+    if (val === "specific-dates")   $("#specific-dates-fields").removeClass("hidden");
+    if (val === "specific-months")  $("#specific-months-fields").removeClass("hidden");
+    if (val === "specific-seasons") $("#specific-seasons-fields").removeClass("hidden");
+    if (val === "no-preference")    $("#no-preference-fields").removeClass("hidden");
+  }
+  $('input[name="date-preference"]').on("change", showDefaultFields);
+  hideAllFields(); showDefaultFields();
+
+  // ──────────── 8) Min‐Value Enforcement ────────────
+  ["trip-length-months","trip-length-seasons","trip-length-no-preference","budget"]
+    .forEach(id => {
+      $(`#${id}`).on("input", function(){
+        if (this.value && this.value < 1) this.value = "";
+      });
+    });
+    // ──────────── 9) Sort Button Logic ────────────
+    $("#sort-btn").on("click", function () {
+      // Check if there are any itinerary items
+      if ($("ul.itinerary-list li").length === 0) {
+        alert("There\'s no itineraries to sort.");
+        return;
+      }
+      // Continue flipping the sort parameter if items exist
+      const params = new URLSearchParams(window.location.search);
+      const current = params.get("sort") || "date";
+      const next = (current === "budget" ? "date" : "budget");
+      params.set("sort", next);
+      window.location.search = params.toString();
     });
 });

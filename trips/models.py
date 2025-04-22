@@ -1,4 +1,6 @@
 # trips/models.py
+from decimal import Decimal
+
 from django.db import models
 from django.contrib.auth.models import User
 from datetime import timedelta
@@ -34,7 +36,7 @@ class Itinerary(models.Model):
     destination = models.CharField(max_length=200, blank=True)
 
     # Budget for the trip
-    budget = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
+    budget = models.DecimalField(max_digits=10, decimal_places=2, blank=True)
 
     # Star rating (optional)
     star_rating = models.CharField(max_length=10, blank=True)
@@ -53,6 +55,7 @@ class Itinerary(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, help_text="The time this itinerary was created.")
     updated_at = models.DateTimeField(auto_now=True, help_text="The time this itinerary was last updated.")
     details = models.TextField(blank=True, help_text="Detailed description of the itinerary")
+    save_model = models.BooleanField(default=False, help_text="Is this itinerary saved?")
 
     @property
     def duration(self):
@@ -61,29 +64,3 @@ class Itinerary(models.Model):
     # String representation for Django admin or debugging
     def __str__(self):
         return self.name
-
-# Mock class used for loading hardcoded itinerary data (not tied to database)
-# class ItineraryDetails:
-#     def __init__(self, id, name, user, destination, duration, budget, star_rating, review_count, visibility, details, created_at, updated_at):
-#         self.id = id
-#         self.name = name
-#         self.user = user
-#         self.destination = destination
-#         self.duration = duration
-#         self.budget = budget
-#         self.star_rating = star_rating
-#         self.review_count = review_count
-#         self.visibility = visibility
-#         self.details = details
-#         self.created_at = created_at
-#         self.updated_at = updated_at
-#
-#         @property
-#         def get_duration(self):
-#             if self.start_date and self.end_date:
-#                 return (self.end_date - self.start_date).days
-#             return None
-
-# List of hardcoded itineraries for use in views (instead of a database)
-# user_itineraries = []
-# public_itineraries = []

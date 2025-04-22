@@ -10,10 +10,6 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   </head>
 
-  <script>
-  console.log("User:", "{{ request.user }}", "Is Admin:", "{{ request.is_admin }}");
-</script>
-
   <body class="{% block body-class %}{% endblock %}">
     <!-- Header (Logo & Navigation) -->
     <header>
@@ -32,12 +28,7 @@
         <!-- Search Form -->
         <div class="header-right">
           <form action="search-results.html" method="GET" class="search-form">
-            <input
-              type="text"
-              name="query"
-              placeholder="Search trips..."
-              required
-            />
+            <input type="text" name="query" placeholder="Search trips…"></input>
             <button type="submit" class="btn btn-primary">Search</button>
           </form>
             <div class="profile-menu">
@@ -69,7 +60,17 @@
 
     <!-- Main Content -->
     <main class="{% block main-class %}{% endblock %}">
-        {% block content %}{% endblock %}
+      <!-- Always present, starts empty -->
+      <ul class="messages">
+          {% if messages %}
+            <!-- Legacy server‑side messages will still render here on a full reload -->
+            {% for message in messages %}
+              <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+          {% endif %}
+      </ul>
+
+      {% block content %}{% endblock %}
     </main>
 
     <!-- Footer -->
