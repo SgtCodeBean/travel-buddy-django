@@ -11,7 +11,6 @@ from django.contrib import messages
 
 # Renders the saved itineraries list for logged-in users
 def saved_itineraries_list(request):
-    user_itineraries = Itinerary.objects.filter(email=request.session.get('username'))
     if not request.session.get('username'):
         return redirect('trips:login')
 
@@ -44,11 +43,25 @@ def user_shared_itinerary_details(request, itinerary_id):
         raise Http404("Itinerary does not exist")
     return render(request, 'trips/itineraries/view_explore_itinerary_details.html', {'itinerary': itinerary})
 
-# Public explore page showing all itineraries (not filtered)
+# Public explore page showing all itineraries
 def explore_itineraries_list(request):
     current_user_email = request.session.get('username')
     public_itineraries = Itinerary.objects.filter(visibility='public').exclude(email=current_user_email)
-    return render(request, 'trips/itineraries/explore_itineraries_list.html', {'itineraries': public_itineraries})
+    if not request.session.get('username'):
+        return redirect('trips:login')
+
+    sort = request.GET.get("sort", "date")
+    if sort == "budget":
+        # Order by budget ascending (0 or empty budgets will be on top)
+        public_itineraries = public_itineraries.order_by("budget")
+    else:
+        # Order by most recently updated first
+        public_itineraries = public_itineraries.order_by("-updated_at")
+
+    return render(request, 'trips/itineraries/explore_itineraries_list.html', {
+        'itineraries': public_itineraries,
+        'current_sort': sort,
+    })
 
 # Landing page view
 def home(request):
