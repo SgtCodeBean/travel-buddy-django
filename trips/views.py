@@ -180,11 +180,11 @@ def save_itinerary(request, itinerary_id):
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         return JsonResponse({
             "success": True,
-            "message": "Itinerary saved successfully.",
+            "message": f"The {itinerary.name} itinerary was saved successfully.",
             "redirect_url": redirect_url
         })
     else:
-        messages.success(request, "Itinerary saved successfully!")
+        messages.success(request, f"The {itinerary.name} itinerary was saved successfully.")
         return redirect(redirect_url)
 
 # Logout view that clears session
@@ -255,7 +255,7 @@ def edit_itinerary(request, itinerary_id):
         itinerary.details = request.POST.get('details', itinerary.details)
 
         itinerary.save()
-        messages.add_message(request, messages.INFO, "The itinerary was edited successfully.")
+        messages.add_message(request, messages.INFO, f"The {itinerary.name} itinerary was edited successfully.")
         return redirect('trips:user_itinerary_details', itinerary_id=itinerary.id)
 
     # Render the edit form
