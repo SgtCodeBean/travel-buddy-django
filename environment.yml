@@ -1,0 +1,33 @@
+name: cs5774
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - asgiref=3.8.1=pyhd8ed1ab_1
+  - bzip2=1.0.8=h99b78c6_7
+  - ca-certificates=2025.2.25=hca03da5_0
+  - cyrus-sasl=2.1.28=h9131b1a_1
+  - django=5.1.7=pyhd8ed1ab_0
+  - krb5=1.20.1=hf3e1bf2_1
+  - libcxx=14.0.6=h848a8c0_0
+  - libedit=3.1.20230828=h80987f9_0
+  - libexpat=2.6.4=h286801f_0
+  - libffi=3.4.2=h3422bc3_5
+  - liblzma=5.6.4=h39f12f2_0
+  - libmpdec=4.0.0=h99b78c6_0
+  - libpq=17.4=h02f6b3c_0
+  - libsqlite=3.49.1=h3f77e49_2
+  - libzlib=1.3.1=h8359307_2
+  - ncurses=6.5=h5e97a16_3
+  - openldap=2.6.4=he7ef289_0
+  - openssl=3.4.1=h81ee809_0
+  - pip=25.0.1=pyh145f28c_0
+  - psycopg2=2.9.9=py313h9abf72c_2
+  - python=3.13.2=h81fe080_101_cp313
+  - python_abi=3.13=5_cp313
+  - readline=8.2=h1d1bf99_2
+  - sqlparse=0.5.3=pyhd8ed1ab_0
+  - tk=8.6.13=h5083fa2_1
+  - typing_extensions=4.12.2=pyha770c72_1
+  - tzdata=2025b=h78e105d_0
+prefix: /opt/anaconda3/envs/cs5774
