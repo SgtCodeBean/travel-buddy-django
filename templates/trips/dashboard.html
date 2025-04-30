@@ -1,0 +1,39 @@
+{% extends "trips/base.html" %}
+
+{% block page-title %}Dashboard{% endblock %}
+{% block body-class %}dashboard-page{% endblock %}
+{% block main-class %}dashboard-container{% endblock %}
+
+{% block content %}
+<div class="dashboard-grid">
+  <!-- Main Content: Activity Feed & Recent Comments -->
+  <main class="dashboard-main">
+
+    <!-- Activity Feed -->
+    <section class="card action-feed">
+      <h2>Activity Feed</h2>
+      {% include "actions/action/feed.html" %}
+    </section>
+
+  </main>
+
+{% block sidebar %}
+    <aside id="itinerary-sidebar" class="sidebar hidden">
+      <div class="sidebar-body">
+        <h2>Your Stats</h2>
+        <ul class="sidebar-tabs">
+          <li><strong>Total Itineraries:</strong> To Be Implemented</li>
+          <li><strong>Total Comments:</strong> To Be Implemented</li>
+        </ul>
+        <!-- Trip Actions -->
+        <h2>Quick Actions</h2>
+        <ul class="sidebar-tabs">
+          <li><a class="btn" href="{% url 'trips:create_itinerary' %}">➕ Create Itinerary</a></li>
+          <li><a class="btn" href="{% url 'trips:saved_itineraries_list' %}">📋 My Itineraries</a></li>
+          <li><a class="btn" href="{% url 'trips:explore_itineraries_list' %}">🔍 Explore Trips</a></li>
+          </ul>
+      </div>
+    </aside>
+{% endblock %}
+</div>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends "trips/base.html" %}
+{% block page-title %}Manage Users{% endblock %}
+{% block content %}
+  <h1>Manage Users</h1>
+  <form method="POST">
+    {% csrf_token %}
+    <table class="user-table">
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Regular</th>
+          <th>Admin</th>
+          <th>Edit Profile</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for u in users %}
+          {% if u.username != request.session.username %}
+        <tr>
+          <td>{{ u.username }}</td>
+          <td>
+            <input
+              type="radio"
+              name="role_{{ u.id }}"
+              value="regular"
+              {% if u.details.role == 'regular' %}checked{% endif %}
+            >
+          </td>
+          <td>
+            <input
+              type="radio"
+              name="role_{{ u.id }}"
+              value="admin"
+              {% if u.details.role == 'admin' %}checked{% endif %}
+            >
+          </td>
+        <td>
+            <a href="{% url 'user:edit_profile' u.username%}" id="edit-btn" class="btn edit-btn">Edit ✏️</a>
+          </td>
+        </tr>
+          {% endif %}
+      {% endfor %}
+      </tbody>
+    </table>
+    <button type="submit" class="btn">Save Roles</button>
+  </form>
+{% endblock %}

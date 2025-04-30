@@ -1,0 +1,31 @@
+{% extends "trips/base.html" %}
+
+{% block page-title %}Profile for {{ user.username }}{% endblock %}
+{% block body-class %}profile-page{% endblock %}
+{% block main-class %}profile-container{% endblock %}
+{% block content %}
+    {% block sidebar %}
+    <aside id="profile-sidebar" class="sidebar hidden">
+      {% include "actions/action/feed.html" %}
+    </aside>
+{% endblock %}
+  <div class="back-btn-container">
+  {% if request.session.username == user.username or request.session.role == 'admin' %}
+    <a href="{% url 'user:edit_profile' request.session.username %}" class="btn back-btn">✏️ Edit Profile Details</a>
+  {% endif %}
+  </div>
+  <h2>Profile for {{ user.username }}</h2>
+
+  <dl>
+    <dt><b>Username</b></dt>
+      <dd>{{ user.username }}</dd>
+    <dt><b>First name</b></dt>
+      <dd>{{ user.first_name }}</dd>
+    <dt><b>Surname</b></dt>
+      <dd>{{ user.last_name }}</dd>
+    <dt><b>Email</b></dt>
+      <dd>{{ user.email }}</dd>
+    <dt><b>Role</b></dt>
+      <dd>{{ user.details.role }}</dd>
+  </dl>
+{% endblock %}

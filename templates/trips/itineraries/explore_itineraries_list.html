@@ -34,7 +34,7 @@
             <div class="itinerary-info">
               <!-- Itinerary Details -->
               <h3>{{ itinerary.name }}</h3>
-              <p><b>User:</b> {{ itinerary.user }}</p>
+                <p><b>User:</b> <a href="{% url 'user:profile' itinerary.user.username %}">{{ itinerary.user.username }}</a></p>
               <p><b>🌍 Destinations:</b> {{ itinerary.destination }}</p>
               <p><b>📅 Duration:</b> {{ itinerary.get_duration }} days</p>
               <p><b>💰 Budget:</b> ${{ itinerary.budget|floatformat:2 }}</p>

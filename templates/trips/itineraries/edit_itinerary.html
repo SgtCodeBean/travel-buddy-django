@@ -2,12 +2,12 @@
 {% block page-title %}Edit Itinerary{% endblock %}
 {% block main-class %}edit-itinerary{% endblock %}
 {% block content %}
-  <div class="trip-preferences">
+  <div class="forms" id="trip-preferences">
           <h2>Edit Itinerary</h2>
           <form id="edit-itinerary-form" action="{% url 'trips:edit_itinerary' itinerary_id=itinerary.id %}" method="POST">
-            <label for="name">Itinerary Name:</label>
+              <label for="name"><b>Itinerary Name:</b></label>
   <input type="text" id="name" name="name" value="{{ itinerary.name }}" />
-              <label for="region">Region</label>
+              <label for="region"><b>Region</b></label>
               <div class="checkbox-group">
       {% for region_value, region_label in itinerary.REGION_CHOICES %}
         <label>
@@ -23,7 +23,7 @@
       {% endfor %}
     </div>
 
-          <label for="visibility">Visibility</label>
+          <label for="visibility"><b>Visibility</b></label>
           <div class="checkbox-group">
         <label>
           <input
@@ -50,13 +50,13 @@
 
         <!-- Specific Dates -->
         <div id="dates-fields">
-          <label for="start-date">Start Date:</label>
+            <label for="start-date"><b>Start Date:</b></label>
           <input type="date" id="start-date" name="start-date" value="{{ itinerary.start_date|date:'Y-m-d' }}"/>
-          <label for="end-date">End Date:</label>
+            <label for="end-date"><b>End Date:</b></label>
           <input type="date" id="end-date" name="end-date" value="{{ itinerary.end_date|date:'Y-m-d' }}"/>
         </div>
 
-            <label for="budget">Budget ($):</label>
+              <label for="budget"><b>Budget ($):</b></label>
             <input
               type="number"
               id="budget"
@@ -64,7 +64,7 @@
               placeholder="Enter your budget or leave blank for no budget limit" value="{{ itinerary.budget }}"
             />
 
-          <label for="details">Details:</label>
+          <label for="details"><b>Details:</b></label>
           <textarea
             id="details"
             name="details"

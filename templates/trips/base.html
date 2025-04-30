@@ -24,12 +24,17 @@
           <a href="{% url 'trips:create_itinerary' %}">Plan Trip</a>
           <a href="{% url 'trips:saved_itineraries_list' %}">Saved Itineraries</a>
           <a href="{% url 'trips:explore_itineraries_list' %}">Explore</a>
+          {% if request.session.role == 'admin' %}
+            <a href="{% url 'user:manage_users' %}">Manage Users</a>
+          {% endif %}
         </nav>
         <!-- Search Form -->
         <div class="header-right">
           <form action="search-results.html" method="GET" class="search-form">
-            <input type="text" name="query" placeholder="Search trips…"></input>
-            <button type="submit" class="btn btn-primary">Search</button>
+              <label>
+                  <input type="text" name="query" placeholder="Search trips…">
+              </label>
+              <button type="submit" class="btn btn-primary">Search</button>
           </form>
             <div class="profile-menu">
             {% if request.session.username %}
@@ -42,11 +47,11 @@
             />
             <div class="dropdown-content">
               {% if request.session.username %}
-              <a href="{% url 'trips:profile' %}">Profile</a>
-              <a href="{% url 'trips:logout' %}">Logout</a>
+              <a href="{% url 'user:profile' request.session.username %}">Profile</a>
+              <a href="{% url 'user:logout' %}">Logout</a>
             {% else %}
-              <a href="{% url 'trips:login' %}">Sign In</a>
-              <a href="{% url 'trips:create_account' %}">Create Account</a>
+              <a href="{% url 'user:login' %}">Sign In</a>
+              <a href="{% url 'user:register' %}">Create Account</a>
             {% endif %}
             </div>
           </div>

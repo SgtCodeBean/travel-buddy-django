@@ -95,7 +95,7 @@ $(document).ready(function () {
 
       // show chat UI
       $(".chat-messages, .chat-input").removeClass("hidden");
-      $f.closest(".trip-preferences").addClass("hidden");
+      $f.closest("#trip-preferences").addClass("hidden");
 
       // user message
       const regions = $("#anywhere-checkbox-input").is(":checked")
@@ -158,19 +158,24 @@ $(document).ready(function () {
       }).catch(err => console.error(err));
     });
 
-    $(document).off("click", ".delete-btn");
-    $(document).on("click", ".delete-btn", function(e) {
+    $(document).off("click", "[data-action='delete']");
+    $(document).on("click", "[data-action='delete']", function(e) {
       e.preventDefault();
       const url = this.dataset.deleteUrl;
-      if (!confirm("Are you sure you want to delete this itinerary?")) {
+      const confirmMessage =
+          this.dataset.confirmMessage || "Are you sure you want to delete this itinerary?";
+      if (!confirm(confirmMessage)) {
         return;
       }
-      fetch(url, { method: "POST", headers:{ "X-CSRFToken": $("[name=csrfmiddlewaretoken]").val() }})
+      fetch(url, { method: "POST", headers:{ "X-CSRFToken": $("[name=csrfmiddlewaretoken]").val(),
+          "X-Requested-With": "XMLHttpRequest"
+        }
+      })
         .then(r=>r.json())
         .then(d=>{
           if (d.success) {
             showFlash(d.message, "warning");
-            $(this).closest(".itinerary-item, .chat-item").remove();
+            $(this).closest(".itinerary-item, .chat-item, .comment").remove();
           } else {
             showFlash(d.message, "error");
           }

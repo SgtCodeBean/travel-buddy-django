@@ -1,0 +1,74 @@
+{% extends "trips/base.html" %}
+{% block page-title %}Edit Profile{% endblock %}
+{% block main-class %}edit-profile{% endblock %}
+{% block content %}
+  <div class="forms" id="trip-preferences">
+      <h2>Edit Profile</h2>
+      <form id="edit-profile" action="{% url 'user:edit_profile' request.session.username %}" method="POST">
+      <label for="first-name"><b>First name:</b></label>
+        <input
+          type="text"
+          id="first-name"
+          name="first-name"
+          placeholder="First name" value="{{ user.first_name }}"
+        />
+      <label for="surname"><b>Surname:</b></label>
+        <input
+          type="text"
+          id="surname"
+          name="surname"
+          placeholder="surname" value="{{ user.last_name }}"
+        />
+      <label for="email"><b>Email:</b></label>
+      <input
+          type="text"
+          id="email"
+          name="email"
+          placeholder="Email" value="{{ user.email }}"
+        />
+
+      <label for="travel-type">Type of Travel*:</label>
+        <select id="travel-type" name="travel-type">
+          <option value="solo" {% if user.details.travel_preference == 'solo' %}selected{% endif %}>Solo</option>
+          <option value="family" {% if user.details.travel_preference == 'family' %}selected{% endif %}>Family</option>
+          <option value="friends" {% if user.details.travel_preference == 'friends' %}selected{% endif %}>Friends</option>
+          <option value="romantic" {% if user.details.travel_preference == 'romantic' %}selected{% endif %}>Romantic</option>
+          <option value="adventure" {% if user.details.travel_preference == 'adventure' %}selected{% endif %}>Adventure</option>
+          <option value="luxury" {% if user.details.travel_preference == 'luxury' %}selected{% endif %}>Luxury</option>
+        </select>
+      <label for="current-password"><b>Current Password:</b></label>
+      <input
+          type="password"
+          id="current-password"
+          name="current-password"
+          placeholder="Current Password"
+      />
+
+      <label for="new-password"><b>New Password:</b></label>
+      <input
+          type="password"
+          id="new-password"
+          name="new-password"
+          placeholder="New Password"
+      />
+
+      <label for="confirm-password"><b>Confirm Password:</b></label>
+      <input
+          type="password"
+          id="confirm-password"
+          name="confirm-password"
+          placeholder="Confirm Password"
+      />
+
+      <button type="submit" class="btn btn-primary">
+        <b>Save Changes</b>
+      </button>
+      {% csrf_token %}
+      </form>
+    </div>
+  {% if referer %}
+    <a href="{{ referer }}" class="btn">Cancel</a>
+  {% else %}
+    <a href="{% url 'user:profile' request.session.username %}" class="btn">Cancel</a>
+  {% endif %}
+{% endblock %}

@@ -23,7 +23,7 @@
           {% else %}
             <li><a href="#" class="btn">📤 Make Public</a></li>
           {% endif %}
-          <a href="#" class="btn " data-action="delete" data-delete-url="{% url 'trips:delete_itinerary' itinerary.id %}">🗑️ Delete Itinerary</a>
+          <a href="#" class="btn" data-action="delete" data-delete-url="{% url 'trips:delete_itinerary' itinerary.id %}">🗑️ Delete Itinerary</a>
         </ul>
       </div>
     </aside>
@@ -46,12 +46,6 @@
       </div>
 
   <!-- Basic Itinerary Info -->
-  <h2>{{ itinerary.name }}</h2>
-  <p><strong>User:</strong> {{ itinerary.user }}</p>
-  <p><strong>Destination:</strong> {{ itinerary.destination }}</p>
-  <p><strong>Dates:</strong> {{ itinerary.start_date|date:"F j, Y" }} - {{ itinerary.end_date|date:"F j, Y" }}</p>
-  <p><strong>Duration:</strong> {{ itinerary.duration }} Days</p>
-  <p><strong>Budget:</strong> ${{ itinerary.budget }}</p>
   <div class="rating">
     {% if itinerary.visibility == 'public' %}
       <span class="stars">{{ itinerary.star_rating }}</span>
@@ -60,9 +54,37 @@
     <span><em>Private Itinerary</em></span>
   {% endif %}
   </div>
+    <h2>{{ itinerary.name }}</h2>
+  <p><strong>User:</strong> {{ itinerary.user.username }}</p>
+  <p><strong>Destination:</strong> {{ itinerary.destination }}</p>
+  <p><strong>Dates:</strong> {{ itinerary.start_date|date:"F j, Y" }} - {{ itinerary.end_date|date:"F j, Y" }}</p>
+  <p><strong>Duration:</strong> {{ itinerary.duration }} Days</p>
+  <p><strong>Budget:</strong> ${{ itinerary.budget }}</p>
 
   <!-- Detailed Itinerary Plan -->
   <div class="itinerary-details">
     {{ itinerary.details|safe }}
   </div>
+    <div class="comments-section">
+    {% if comments %}
+    {% for comment in comments %}
+    <div class="comment">
+      <div class="comment-header">
+        <div class="comment-user-time">
+          <p><strong><a href="{% url 'user:profile' comment.user.username %}">{{ comment.user.username }}</a></strong></p>
+          <p class="update-time">{{ comment.updated|date:"F j, Y" }}</p>
+        </div>
+        {% if request.session.role == 'admin' or request.session.username == comment.user.username %}
+          <button class="btn comment-delete-btn" data-action="delete" data-delete-url="{% url 'trips:delete_itinerary' itinerary_id=itinerary.id %}">🗑️</button>
+        {% endif %}
+      </div>
+      <div class="comment-body">
+        <p>{{ comment.body }}</p>
+      </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <p>No comments yet.</p>
+    {% endif %}
+    </div>
 {% endblock %}

@@ -16,8 +16,7 @@
                 <div class="trip-actions">
                   <form
                     method="post"
-                    action="{% url 'trips:save_itinerary' itinerary.id %}"
-                    style="display:inline">
+                    action="{% url 'trips:save_itinerary' itinerary.id %}">
                     {% csrf_token %}
                     <button type="submit" class="btn save-btn">
                       <span class="save-icon">💾</span>
@@ -60,7 +59,7 @@
         </div>
 
         <!-- Trip Preferences Form -->
-        <div class="trip-preferences">
+        <div class="forms" id="trip-preferences">
           <h2>Plan Your Trip</h2>
             <p>* = required</p>
           <form id="generate-itinerary-form" action="{% url 'trips:create_itinerary' %}" method="POST">

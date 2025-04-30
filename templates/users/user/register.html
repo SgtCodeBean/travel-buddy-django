@@ -1,0 +1,48 @@
+{% extends "trips/base.html" %}
+{% block page-title %}Create Account{% endblock %}
+{% block body-class %}create-account-page{% endblock %}
+{% block main-class %}create-account-container{% endblock %}
+{% block content %}
+  <div class="forms">
+    <h1>Create Account</h1>
+    <form method="POST" action="{% url 'user:register' %}">
+      {% csrf_token %}
+
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" required placeholder="Enter your username">
+      </div>
+
+      <div class="form-group">
+        <label for="first-name">First Name</label>
+        <input type="text" id="first-name" name="first-name" required placeholder="Enter your first name">
+      </div>
+
+      <div class="form-group">
+        <label for="surname">Surname Name</label>
+        <input type="text" id="surname" name="surname" required placeholder="Enter your surname name">
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email address</label>
+        <input type="email" id="email" name="email" required placeholder="Enter your email">
+      </div>
+
+      <div class="form-group">
+        <label for="password1">Password</label>
+        <input type="password" id="password1" name="password1" required placeholder="Enter a password">
+      </div>
+
+      <div class="form-group">
+        <label for="password2">Confirm Password</label>
+        <input type="password" id="password2" name="password2" required placeholder="Confirm your password">
+      </div>
+
+      <button type="submit" class="btn btn-primary">Create Account</button>
+
+      <div class="login-link">
+        Already have an account? <a href="{% url 'user:login' %}">Log in</a>
+      </div>
+    </form>
+  </div>
+{% endblock %}

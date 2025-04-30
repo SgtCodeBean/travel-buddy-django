@@ -40,33 +40,59 @@
           </div>
 
       <!-- Basic Itinerary Info -->
-      <h2>{{ itinerary.name }}</h2>
-      <p><strong>User:</strong> {{ itinerary.user }}</p>
+        <div class="rating">
+            <span class="stars">{{ itinerary.star_rating }}</span>
+            <span class="review-count">({{ itinerary.review_count }} reviews)</span>
+          </div>
+        <h2>{{ itinerary.name }}</h2>
+      <p><b>User:</b> <a href="{% url 'user:profile' itinerary.user.username %}">{{ itinerary.user.username }}</a></p>
       <p><strong>Destination:</strong> {{ itinerary.destination }}</p>
       <p><strong>Dates:</strong> {{ itinerary.start_date|date:"F j, Y" }} - {{ itinerary.end_date|date:"F j, Y" }}</p>
       <p><strong>Duration:</strong> {{ itinerary.duration }} Days</p>
       <p><strong>Budget:</strong> ${{ itinerary.budget }}</p>
-      <div class="rating">
-        <span class="stars">{{ itinerary.star_rating }}</span>
-        <span class="review-count">({{ itinerary.review_count }} reviews)</span>
-      </div>
 
       <!-- Detailed Itinerary Plan -->
       <div class="itinerary-details">
         {{ itinerary.details|safe }}
       </div>
 
-    <div class="comments-section">
-      {% if request.session.username %}
-        <h3>Add a Comment</h3>
-      <form action="{% url 'trips:add_comment' itinerary_id=3 %}" method="POST">
+    {% if request.session.username %}
+      <h3>Add a Comment</h3>
+      <form action="{% url 'trips:add_comment' itinerary_id=itinerary.id %}" method="POST">
         {% csrf_token %}
         <textarea name="comment" class="comment-box" placeholder="Write your comment here..." required></textarea>
-        <button type="submit" class="btn btn-send">Submit Comment</button>
+        <button type="submit" class="btn btn-send" id="comment-submit-btn">Submit Comment</button>
       </form>
     {% else %}
     <h3>Comments</h3>
-    <p>Please <a href="{% url 'trips:login' %}">Sign In</a> or <a href="{% url 'trips:create_account' %}">Sign Up</a> to add a comment.</p>
+    <p>Please <a href="{% url 'user:login' %}">Sign In</a> or <a href="{% url 'user:register' %}">Sign Up</a> to add a comment.</p>
+    {% endif %}
+
+    <div class="comments-section">
+    {% if comments %}
+    {% for comment in comments %}
+    <div class="comment">
+      <div class="comment-header">
+        <div class="comment-user-time">
+          <p><strong><a href="{% url 'user:profile' comment.user.username %}">{{ comment.user.username }}</a></strong></p>
+          <p class="update-time">{{ comment.updated|date:"F j, Y, g:i:s a" }}</p>
+        </div>
+        {% if request.session.role == 'admin' or request.session.username == comment.user.username %}
+          <button class="btn comment-delete-btn"
+                  data-action="delete"
+                  data-delete-url="{% url 'trips:delete_comment' comment_id=comment.id %}"
+                  data-confirm-message="Are you sure you want to delete this comment created on {{ comment.created }}?">
+              🗑️
+          </button>
+        {% endif %}
+      </div>
+      <div class="comment-body">
+        <p>{{ comment.body }}</p>
+      </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <p>No comments yet.</p>
     {% endif %}
     </div>
 {% endblock %}

@@ -1,10 +1,7 @@
-# trips/models.py
-from decimal import Decimal
-
 from django.db import models
 from django.contrib.auth.models import User
-from datetime import timedelta
-from django.utils.timezone import now
+from django.urls import reverse
+
 
 # Django model representing saved itineraries in the database
 class Itinerary(models.Model):
@@ -29,7 +26,8 @@ class Itinerary(models.Model):
     # Name of the itinerary
     name = models.CharField(max_length=200, default="My Itinerary")
 
-    user = models.CharField(max_length=150, default='Anonymous')
+    author = models.CharField(max_length=150, default='Anonymous')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     email = models.CharField(max_length=150, default='Anonymous')
 
     # Destination name(s)
@@ -64,3 +62,24 @@ class Itinerary(models.Model):
     # String representation for Django admin or debugging
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('trips:user_itinerary_details', args=[str(self.id)])
+
+class Comment(models.Model):
+    itinerary = models.ForeignKey(Itinerary,
+                             on_delete=models.CASCADE,
+                             related_name='comments')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    email = models.EmailField()
+    body = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    active = models.BooleanField(default=True)
+    class Meta:
+        ordering = ['created']
+        indexes = [
+            models.Index(fields=['created']),
+        ]
+    def __str__(self):
+        return f'Comment by {self.user.username} on {self.itinerary}'
